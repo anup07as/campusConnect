@@ -4,6 +4,25 @@
     box-sizing: border-box;
 }
 
+/* =========================
+   BODY
+========================= */
+
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(
+        135deg,
+        #b9ddff,
+        #ffffff 50%,
+        #ffc1df
+    );
+    color: #222;
+}
+
+
+/* =========================
+   NAVIGATION
+========================= */
 
 nav {
     height: 65px;
@@ -28,12 +47,13 @@ nav {
 
 .brand h2 {
     margin-left: 10px;
-    font-size: 24px;
+    font-size: 25px;
     color: white;
 }
 
 .nav-links {
     display: flex;
+    align-items: center;
     gap: 30px;
 }
 
@@ -49,9 +69,44 @@ nav {
 }
 
 
+/* Sign In */
+
+.signin-btn {
+    border: 1px solid white;
+    padding: 8px 18px;
+    border-radius: 6px;
+    transition: 0.3s;
+    margin-left: 5px;
+}
+
+.signin-btn:hover {
+    background-color: white;
+    color: #123B7A !important;
+}
 
 
-/*  hero section */
+/* Join Now */
+
+.join-btn {
+    background-color: #ff3f91;
+    color: white !important;
+    padding: 9px 18px;
+    border-radius: 6px;
+    font-weight: bold;
+    transition: 0.3s;
+    margin-left: -15px;
+}
+
+.join-btn:hover {
+    background-color: white;
+    color: #123B7A !important;
+}
+
+
+/* =========================
+   HERO SECTION
+========================= */
+
 .hero {
     min-height: 450px;
     display: flex;
@@ -86,21 +141,15 @@ nav {
     margin-bottom: 30px;
 }
 
-.hero .explore-btn {
-    display: inline-block;
+.hero button {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
     background-color: #123B7A;
     color: white;
-    padding: 14px 28px;
-    border-radius: 8px;
-    font-size: 17px;
-    text-decoration: none;
-    cursor: pointer;
     transition: 0.3s;
-}
-
-.hero .explore-btn:hover {
-    background-color: #ff3f91;
-    transform: translateY(-2px);
 }
 
 .hero button:hover {
@@ -109,70 +158,10 @@ nav {
 }
 
 
+/* =========================
+   HOMEPAGE RESOURCES
+========================= */
 
-nav h2 {
-    font-size: 25px;
-}
-
-nav a {
-    text-decoration: none;
-    color: #222;
-    margin-left: 25px;
-}
-
-section {
-    padding: 70px 60px;
-}
-
-section:first-of-type {
-    text-align: center;
-}
-
-h1 {
-    font-size: 50px;
-    margin-bottom: 20px;
-}
-
-section p {
-    font-size: 18px;
-    margin-bottom: 30px;
-}
-
-button {
-    padding: 12px 25px;
-    border: none;
-    border-radius: 6px;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-section:last-of-type {
-    text-align: center;
-}
-
-section:last-of-type > div {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-top: 30px;
-}
-
-section:last-of-type > div > div {
-    background-color: white;
-    padding: 25px;
-    width: 220px;
-    border-radius: 10px;
-}
-body {
-    font-family: Arial, sans-serif;
-    background: linear-gradient(
-        135deg,
-        #b9ddff,
-        #ffffff 50%,
-        #ffc1df
-    );
-    color: #222;
-}
 .resources {
     text-align: center;
     padding: 60px 30px;
@@ -227,106 +216,33 @@ body {
     font-weight: bold;
 }
 
-.join-btn {
-    background-color: #ff3f91;
-    color: white !important;
-    padding: 9px 18px;
-    border-radius: 6px;
-    font-weight: bold;
-    transition: 0.3s;
-}
-/* join button */
-.join-btn:hover {
-    background-color: white;
-    color: #123B7A !important;
 
-}
-.join-btn {
-    background-color: #ff3f91;
-    color: white !important;
-    padding: 9px 18px;
-    border-radius: 6px;
-    font-weight: bold;
-    transition: 0.3s;
-    margin-left: -15px;
-}
-
-/* sign button */
-.signin-btn {
-    border: 1px solid white;
-    padding: 8px 18px;
-    border-radius: 6px;
-    transition: 0.3s;
-}
-
-.signin-btn:hover {
-    background-color: white;
-    color: #123B7A !important;
-}
-.nav-links {
-    display: flex;
-    align-items: center;
-    gap: 30px;
-}
-
-.signin-btn {
-    border: 1px solid white;
-    padding: 8px 18px;
-    border-radius: 6px;
-    transition: 0.3s;
-    margin-left: 5px;
-}
-
-
-
-
-
-
-
-/* Day 2 :- */
-.semester-container {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 25px;
-    padding: 50px 30px;
-}
-.semester-card {
-    width: 250px;
-    padding: 30px;
-    background-color: white;
-    border-radius: 12px;
-    text-align: center;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
-    transition: 0.3s;
-}
-.semester-card:hover {
-    transform: translateY(-8px);
-}
-.semester-card h2 {
-    color: #123B7A;
-    margin-bottom: 10px;
-}
-.semester-card p {
-    color: #ff3f91;
-}
-
+/* =========================
+   RESOURCE PAGE
+========================= */
 
 .resource-page {
     text-align: center;
-    padding: 70px 30px;
+    padding: 55px 30px;
 }
 
 .resource-page h1 {
     font-size: 48px;
     color: #123B7A;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }
 
-.resource-page > p {
+.resource-page > p,
+.semester-subtitle {
     font-size: 18px;
     color: #555;
+    margin-bottom: 35px;
 }
+
+
+/* =========================
+   SEMESTER CARDS
+========================= */
 
 .semester-container {
     display: flex;
@@ -334,15 +250,22 @@ body {
     flex-wrap: wrap;
     gap: 25px;
     margin-top: 45px;
+    padding: 0 30px;
 }
+
 .semester-card {
+    display: block;
     width: 250px;
     padding: 30px;
     background-color: white;
     border-radius: 12px;
+    text-align: center;
+    text-decoration: none;
+    color: inherit;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
     transition: 0.3s;
 }
+
 .semester-card:hover {
     transform: translateY(-8px);
     box-shadow: 0 10px 25px rgba(18, 59, 122, 0.15);
@@ -356,140 +279,17 @@ body {
 .semester-card p {
     color: #ff3f91;
 }
-/*  how they look to different platform */
-@media (max-width: 900px) {
-    .semester-container {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-@media (max-width: 500px) {
-    .semester-container {
-        grid-template-columns: 1fr;
-    }
-}
 
 
-
-/* day3  */
-/* Subjects Page */
+/* =========================
+   SUBJECTS
+========================= */
 
 .subjects {
     width: 90%;
     max-width: 1200px;
     margin: 40px auto;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 25px;
 }
-
-.subject-card {
-    background: white;
-    padding: 30px;
-    border-radius: 18px;
-    text-align: center;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
-    box-sizing: border-box;
-}
-
-.subject-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 15px 30px rgba(30, 70, 120, 0.2);
-}
-
-.subject-card h2 {
-    color: #173f7a;
-    margin-bottom: 12px;
-}
-
-.subject-card p {
-    color: #555;
-    margin-bottom: 20px;
-}
-
-.subject-card a {
-    color: #f34b9a;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.subject-card a:hover {
-    text-decoration: underline;
-}
-body > h1,
-body > p {
-    text-align: center;
-}
-
- #material-section {
-    width: 85%;
-    max-width: 900px;
-    margin: 50px auto;
-    padding: 30px;
-    background: rgba(255, 255, 255, 0.9);
-    border-radius: 18px;
-    box-shadow: 0 8px 25px rgba(30, 70, 120, 0.12);
-}
-
-#material-section h2 {
-    color: #123B7A;
-    text-align: center;
-    margin-bottom: 25px;
-}
-
-.material-list {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.material-list p {
-    margin: 0;
-    padding: 15px 20px;
-    background-color: #f8fbff;
-    border-radius: 8px;
-    color: #333;
-}
-
-/* Study Material Section */
-#material-section {
-    display: none;
-    width: 90%;
-    max-width: 1000px;
-    margin: 40px auto;
-    padding: 30px;
-    background: white;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-    box-sizing: border-box;
-}
-
-#material-section h2 {
-    color: #17427e;
-    text-align: center;
-    margin-bottom: 25px;
-}
-
-.material-list {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-}
-
-.material-item {
-    padding: 18px;
-    background: #f8f9ff;
-    border-radius: 12px;
-    text-align: center;
-    color: #17427e;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-.material-item:hover {
-    transform: translateY(-3px);
-}
-
 
 #subjects-container {
     width: 100%;
@@ -500,6 +300,156 @@ body > p {
 
 .subject-card {
     width: 100%;
-    box-sizing: border-box;
-    margin: 0;
+    min-height: 215px;
+    background: white;
+    padding: 30px 25px;
+    border-radius: 18px;
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.subject-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(30, 70, 120, 0.2);
+}
+.subject-card h2 {
+    color: #173f7a;
+    margin-bottom: 12px;
+}
+.subject-card p {
+    color: #555;
+    margin-bottom: 20px;
+}
+.subject-card a,
+.subject-card span {
+    color: #f34b9a;
+    text-decoration: none;
+    font-weight: bold;
+}
+.subject-card a:hover {
+    text-decoration: underline;
+}
+/* =========================
+   STUDY MATERIAL
+========================= */
+#material-section {
+    display: none;
+    width: 90%;
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 30px;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+#material-section h2 {
+    color: #17427e;
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 28px;
+}
+.material-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+.material-item {
+    padding: 18px;
+    background: #f8f9ff;
+    border-radius: 12px;
+    text-align: center;
+    color: #17427e;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.material-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(30, 70, 120, 0.12);
+}
+/* =========================
+   BACK BUTTON
+========================= */
+.back-btn {
+    display: inline-block;
+    margin-bottom: 25px;
+    color: #123B7A;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 16px;
+    transition: 0.3s;
+}
+.back-btn:hover {
+    color: #ff3f91;
+    transform: translateX(-3px);
+}
+/* =========================
+   RESPONSIVE DESIGN
+========================= */
+
+@media (max-width: 900px) {
+    #subjects-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .material-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    nav {
+        height: auto;
+        min-height: 65px;
+        padding: 10px 12px;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    .brand img {
+        width: 50px;
+        height: 50px;
+    }
+    .brand h2 {
+        font-size: 18px;
+        margin-left: 6px;
+    }
+    .nav-links {
+        width: 100%;
+        justify-content: center;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+    .nav-links a {
+        font-size: 13px;
+    }
+    .signin-btn {
+        padding: 6px 12px;
+        margin-left: 0;
+    }
+    .join-btn {
+        padding: 7px 12px;
+        margin-left: 0;
+    }
+    .hero h1 {
+        font-size: 42px;
+    }
+    .resource-page h1 {
+        font-size: 38px;
+    }
+    #subjects-container {
+        grid-template-columns: 1fr;
+    }
+    .material-list {
+        grid-template-columns: 1fr;
+    }
+    .subjects {
+        width: 95%;
+    }
+    #material-section {
+        width: 95%;
+    }
 }
