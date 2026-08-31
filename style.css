@@ -367,3 +367,139 @@ body {
         grid-template-columns: 1fr;
     }
 }
+
+
+
+/* day3  */
+/* Subjects Page */
+
+.subjects {
+    width: 90%;
+    max-width: 1200px;
+    margin: 40px auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.subject-card {
+    background: white;
+    padding: 30px;
+    border-radius: 18px;
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    box-sizing: border-box;
+}
+
+.subject-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(30, 70, 120, 0.2);
+}
+
+.subject-card h2 {
+    color: #173f7a;
+    margin-bottom: 12px;
+}
+
+.subject-card p {
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.subject-card a {
+    color: #f34b9a;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.subject-card a:hover {
+    text-decoration: underline;
+}
+body > h1,
+body > p {
+    text-align: center;
+}
+
+ #material-section {
+    width: 85%;
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 18px;
+    box-shadow: 0 8px 25px rgba(30, 70, 120, 0.12);
+}
+
+#material-section h2 {
+    color: #123B7A;
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.material-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.material-list p {
+    margin: 0;
+    padding: 15px 20px;
+    background-color: #f8fbff;
+    border-radius: 8px;
+    color: #333;
+}
+
+/* Study Material Section */
+#material-section {
+    display: none;
+    width: 90%;
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 30px;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    box-sizing: border-box;
+}
+
+#material-section h2 {
+    color: #17427e;
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.material-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.material-item {
+    padding: 18px;
+    background: #f8f9ff;
+    border-radius: 12px;
+    text-align: center;
+    color: #17427e;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.material-item:hover {
+    transform: translateY(-3px);
+}
+
+
+#subjects-container {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.subject-card {
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0;
+}
