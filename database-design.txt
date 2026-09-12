@@ -1,0 +1,39 @@
+CAMPUSCONNECT DATABASE
+
+1. USERS
+- id
+- name
+- email
+- password
+- role
+
+2. SEMESTERS
+- id
+- number
+
+3. SUBJECTS
+- id
+- name
+- semester_id
+
+4. RESOURCES
+- id
+- title
+- type
+- file_path
+- subject_id
+
+RELATIONSHIPS
+
+1. SEMESTER → SUBJECT
+- One semester can have many subjects.
+- Each subject belongs to one semester.
+
+2. SUBJECT → RESOURCE
+- One subject can have many resources.
+- Each resource belongs to one subject.
+
+3. USER
+- A user can be a STUDENT or ADMIN.
+- ADMIN can add and manage resources.
+- STUDENT can view resources.

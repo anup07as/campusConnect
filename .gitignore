@@ -1,0 +1,12 @@
+# Java / Maven
+backend/target/
+backend/.idea/
+
+# VS Code
+.vscode/
+
+# Environment / secrets
+backend/src/main/resources/application.properties
+
+# OS
+.DS_Store

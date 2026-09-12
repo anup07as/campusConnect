@@ -7,38 +7,51 @@ console.log("Selected semester:", semester);
 // ===============================
 // SHOW STUDY MATERIAL
 // ===============================
+function showMaterials(subject, subjectId) {
 
-function showMaterials(subject) {
-    const materialSection = document.getElementById("material-section");
+    const materialSection =
+        document.getElementById("material-section");
+
     materialSection.style.display = "block";
+
     materialSection.innerHTML = `
     <h2>📚 ${subject} Study Material</h2>
-
     <div class="material-list">
-
-        <div class="material-item">
-            📄 <a href="materials/Semiconductor/semiconductor.pdf" target="_blank">
-                semiconductor.pdf
-            </a>
-        </div>
-
-        <div class="material-item">
-            📝 <a href="#" onclick="return false;">
-                Previous Year Papers
-            </a>
-        </div>
-
-        <div class="material-item">
-            📋 <a href="#" onclick="return false;">
-                Important Questions
-            </a>
-        </div>
-
+        <p>Loading resources...</p>
     </div>
 `;
+
+fetch("http://127.0.0.1:8080/api/resources?subjectId=" + subjectId)
+    .then(response => response.json())
+    .then(resources => {
+
+        const materialList =
+            materialSection.querySelector(".material-list");
+
+        materialList.innerHTML = "";
+
+        resources.forEach(function(resource) {
+
+            materialList.innerHTML += `
+                <div class="material-item">
+                    📄
+                    <a href="${resource.filePath}" target="_blank">
+                        ${resource.title}
+                    </a>
+                </div>
+            `;
+
+        });
+
+    })
+    .catch(error => {
+
+        console.error("Resource error:", error);
+
+        materialSection.querySelector(".material-list").innerHTML =
+            "<p>Unable to load resources.</p>";
+    });
 }
-
-
 // ===============================
 // SEMESTER TITLE
 // ===============================
@@ -49,93 +62,47 @@ if (semester) {
     semesterTitle.textContent = "Semester " + semester;
 }
 
-
 // ===============================
-// SUBJECTS FOR ALL 8 SEMESTERS
-// ===============================
-
-const subjects = {
-
-    1: [
-        "Semiconductor",
-        "Programming in C",
-        "Mathematics 1",
-        "IDS"
-    ],
-
-    2: [
-        "Data Structures",
-        "Digital Electronics",
-        "Mathematics 2",
-        "Object Oriented Programming"
-    ],
-
-    3: [
-        "Database Management System",
-        "Operating System",
-        "Computer Networks",
-        "Discrete Mathematics"
-    ],
-
-    4: [
-        "Software Engineering",
-        "Web Technology",
-        "Computer Architecture",
-        "Theory of Computation"
-    ],
-
-    5: [
-        "Artificial Intelligence",
-        "Machine Learning",
-        "Compiler Design",
-        "Cloud Computing"
-    ],
-
-    6: [
-        "Cyber Security",
-        "Distributed Systems",
-        "Data Mining",
-        "Mobile Computing"
-    ],
-
-    7: [
-        "Big Data",
-        "Internet of Things",
-        "Blockchain",
-        "Elective"
-    ],
-
-    8: [
-        "Project",
-        "Internship",
-        "Major Project",
-        "Elective"
-    ]
-
-};
-
-
-// ===============================
-// DISPLAY SUBJECTS
+// GET SUBJECTS FROM BACKEND
 // ===============================
 
 const subjectsContainer =
     document.getElementById("subjects-container");
 
-if (semester && subjects[semester]) {
+if (semester) {
 
-    subjectsContainer.innerHTML = "";
+    fetch("http://127.0.0.1:8080/api/subjects?semester=" + semester)
 
-    subjects[semester].forEach(function(subject) {
+        .then(response => response.json())
 
-        subjectsContainer.innerHTML += `
-    <div class="subject-card" onclick="showMaterials('${subject}')">
-        <h2>${subject}</h2>
-        <p>Notes, PYQs and study material.</p>
-        <span>Explore →</span>
-    </div>
-`;
+        .then(subjects => {
 
-    });
+            subjectsContainer.innerHTML = "";
 
+            subjects.forEach(function(subject) {
+
+    subjectsContainer.innerHTML += `
+        <div class="subject-card"
+            onclick="showMaterials('${subject.name}', ${subject.id})"
+
+            <h2>${subject.name}</h2>
+
+            <p>Notes, PYQs and study material.</p>
+
+            <span>Explore →</span>
+
+        </div>
+    `;
+
+});
+
+        })
+
+        .catch(error => {
+
+            console.error("Backend error:", error);
+
+            subjectsContainer.innerHTML =
+                "<p>Unable to load subjects.</p>";
+        });
 }

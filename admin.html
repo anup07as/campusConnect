@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Dashboard - CampusConnect</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <nav>
+        <div class="brand">
+            <img src="logo.png" alt="CampusConnect Logo">
+            <h2>CampusConnect</h2>
+        </div>
+
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="resources.html">Resources</a>
+            <a href="about.html">About</a>
+            <button id="logout-btn" class="signin-btn">Logout</button>
+        </div>
+    </nav>
+
+    <main class="admin-page">
+
+        <div class="admin-header">
+            <p class="about-label">ADMIN PANEL</p>
+            <h1>Welcome, Admin 👑</h1>
+            <p>Manage CampusConnect resources and subjects.</p>
+        </div>
+
+        <div class="admin-grid">
+
+            <div class="about-card">
+                <div class="about-icon">📚</div>
+                <h2>Manage Subjects</h2>
+                <p>Add, edit or delete subjects.</p>
+                <button onclick="addSubject()">Add Subject</button>
+
+<div id="subject-form" style="display:none; margin-top:20px;">
+
+    <input
+        type="text"
+        id="subject-name"
+        placeholder="Enter subject name"
+    >
+
+    <input
+        type="number"
+        id="semester-id"
+        placeholder="Semester number"
+        min="1"
+        max="8"
+    >
+
+    <button onclick="saveSubject()">Save Subject</button>
+
+</div>
+            </div>
+
+            <div class="about-card">
+                <div class="about-icon">📄</div>
+                <h2>Manage Resources</h2>
+                <p>Upload and manage study materials.</p>
+               <button onclick="addResource()">Add Resource</button>
+
+<div id="resource-form" style="display:none; margin-top:20px;">
+
+    <input
+        type="text"
+        id="resource-title"
+        placeholder="Enter resource title"
+    >
+
+    <select id="resource-type">
+        <option value="Notes">Notes</option>
+        <option value="PYQ">PYQ</option>
+        <option value="Important Questions">Important Questions</option>
+    </select>
+
+    <input
+        type="text"
+        id="resource-file"
+        placeholder="Enter file name (e.g. notes.pdf)"
+    >
+
+    <input
+        type="number"
+        id="resource-subject"
+        placeholder="Subject ID"
+        min="1"
+    >
+
+    <button onclick="saveResource()">Save Resource</button>
+
+</div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <script>
+        const role = localStorage.getItem("userRole");
+
+        if (role !== "ADMIN") {
+            alert("Access denied. Admin only.");
+            window.location.href = "index.html";
+        }
+
+        document.getElementById("logout-btn").addEventListener("click", function () {
+
+            localStorage.removeItem("userName");
+            localStorage.removeItem("userEmail");
+            localStorage.removeItem("userRole");
+
+            window.location.href = "signin.html";
+        });
+
+        function addSubject() {
+    document.getElementById("subject-form").style.display = "block";
+}
+
+function saveSubject() {
+
+    const name = document.getElementById("subject-name").value;
+    const semesterId = document.getElementById("semester-id").value;
+
+    if (!name || !semesterId) {
+        alert("Please enter subject name and semester.");
+        return;
+    }
+
+    const subject = {
+        name: name,
+        semesterId: Number(semesterId)
+    };
+
+    fetch("http://127.0.0.1:8080/api/subjects", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(subject)
+    })
+
+    .then(response => response.json())
+
+    .then(data => {
+        alert("Subject added successfully!");
+
+        document.getElementById("subject-name").value = "";
+        document.getElementById("semester-id").value = "";
+    })
+
+    .catch(error => {
+        console.error("Error:", error);
+        alert("Unable to add subject.");
+    });
+}
+ function addResource() {
+    document.getElementById("resource-form").style.display = "block";
+}
+
+function saveResource() {
+
+    const title = document.getElementById("resource-title").value;
+    const type = document.getElementById("resource-type").value;
+    const filePath = document.getElementById("resource-file").value;
+    const subjectId = document.getElementById("resource-subject").value;
+
+    if (!title || !filePath || !subjectId) {
+        alert("Please fill all fields.");
+        return;
+    }
+
+    const resource = {
+        title: title,
+        type: type,
+        filePath: filePath,
+        subjectId: Number(subjectId)
+    };
+
+    fetch("http://127.0.0.1:8080/api/resources", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(resource)
+    })
+
+    .then(response => response.json())
+
+    .then(data => {
+
+        alert("Resource added successfully!");
+
+        document.getElementById("resource-title").value = "";
+        document.getElementById("resource-file").value = "";
+        document.getElementById("resource-subject").value = "";
+
+    })
+
+    .catch(error => {
+
+        console.error("Resource error:", error);
+        alert("Unable to add resource.");
+
+    });
+}
+    </script>
+
+</body>
+</html>
