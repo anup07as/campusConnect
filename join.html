@@ -96,13 +96,16 @@ joinForm.addEventListener("submit", function(event) {
         body: JSON.stringify(user)
     })
 
-    .then(response => {
-        if (!response.ok) {
-            throw new Error("Registration failed");
+    .then(async response => {
+    if (!response.ok) {
+        const errorMessage = await response.text();
+        if (errorMessage.includes("Email already registered")) {
+            throw new Error("Email already registered");
         }
-
-        return response.json();
-    })
+        throw new Error("Registration failed");
+    }
+    return response.json();
+})
 
     .then(data => {
         alert("Account created successfully!");
@@ -110,11 +113,16 @@ joinForm.addEventListener("submit", function(event) {
         joinForm.reset();
     })
 
-    .catch(error => {
-        console.error("Registration error:", error);
-        alert("Unable to create account.");
-    });
+   .catch(error => {
 
+    console.error("Registration error:", error);
+
+    if (error.message === "Email already registered") {
+        alert("Email already registered. Please use another email.");
+    } else {
+        alert("Unable to create account.");
+    }
+});
 });
 </script>
 </body>
