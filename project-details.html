@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Project Details - CampusConnect</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+
+        <div class="logo">
+            CampusConnect
+        </div>
+
+        <div class="nav-links">
+
+            <a href="index.html">
+                Home
+            </a>
+
+            <a href="resources.html">
+                Resources
+            </a>
+
+            <a href="about.html">
+                About
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- PROJECT DETAILS -->
+
+    <main class="project-details-container">
+
+        <div id="project-details">
+
+            <p>Loading project...</p>
+
+        </div>
+
+    </main>
+
+<script>
+
+    const projectDetails =
+        document.getElementById("project-details");
+
+    const projectParams =
+        new URLSearchParams(
+            window.location.search
+        );
+
+    const projectId =
+        projectParams.get("id");
+
+
+    if (!projectId) {
+
+        projectDetails.innerHTML =
+            "<p>Project not found.</p>";
+
+    } else {
+
+        fetch(
+            "http://127.0.0.1:8080/api/projects"
+        )
+
+        .then(response => {
+
+            if (!response.ok) {
+                throw new Error("Projects loading failed");
+            }
+
+            return response.json();
+        })
+
+        .then(projects => {
+
+            const project =
+                projects.find(
+                    p => p.id == projectId
+                );
+
+
+            if (!project) {
+
+                projectDetails.innerHTML =
+                    "<p>Project not found.</p>";
+
+                return;
+            }
+
+
+            projectDetails.innerHTML = `
+
+                <div class="project-details-card">
+
+                    <div class="project-details-image">
+
+                        ${
+                            project.imagePath
+                            ? `
+                                <img
+                                    src="http://127.0.0.1:8080${project.imagePath}"
+                                    alt="${project.title}"
+                                >
+                              `
+                            : `
+                                <div class="project-placeholder">
+                                    💻
+                                </div>
+                              `
+                        }
+
+                    </div>
+
+
+                    <div class="project-details-content">
+
+                        <h1>
+                            ${project.title}
+                        </h1>
+
+                        <p class="project-details-student">
+                            👤 By ${project.studentName}
+                        </p>
+
+
+                        <h3>
+                            About this project
+                        </h3>
+
+                        <p class="project-details-description">
+                            ${project.description}
+                        </p>
+
+
+                        <h3>
+                            Technologies
+                        </h3>
+
+                        <div class="project-details-technologies">
+
+                            ${
+                                project.technologies
+                                ? project.technologies
+                                    .split(",")
+                                    .map(
+                                        tech =>
+                                        `<span>${tech.trim()}</span>`
+                                    )
+                                    .join("")
+                                : "<span>Technology not specified</span>"
+                            }
+
+                        </div>
+
+
+                        <div class="project-details-links">
+
+                            ${
+                                project.githubUrl
+                                ? `
+                                    <a
+                                        href="${project.githubUrl}"
+                                        target="_blank"
+                                    >
+                                        GitHub →
+                                    </a>
+                                  `
+                                : ""
+                            }
+
+
+                            ${
+                                project.liveDemoUrl
+                                ? `
+                                    <a
+                                        href="${project.liveDemoUrl}"
+                                        target="_blank"
+                                    >
+                                        Live Demo →
+                                    </a>
+                                  `
+                                : ""
+                            }
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            `;
+        })
+
+        .catch(error => {
+
+            console.error(
+                "Project details error:",
+                error
+            );
+
+            projectDetails.innerHTML =
+                "<p>Unable to load project details.</p>";
+        });
+
+    }
+
+</script>
+
+<script src="script.js"></script>
+    <script src="script.js"></script>
+
+</body>
+
+</html>

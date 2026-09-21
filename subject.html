@@ -30,6 +30,15 @@
 </div>
 
 <div id="material-section"></div>
-    <script src="script.js"></script>
+<script>
+    const pageAuthToken =
+        localStorage.getItem("authToken");
+
+    if (!pageAuthToken) {
+        window.location.href = "signin.html";
+    }
+</script>
+
+<script src="script.js"></script>
 </body>
 </html>

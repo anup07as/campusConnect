@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,333 +9,1133 @@
 
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
+
+    <!-- =========================
+         NAVBAR
+    ========================== -->
+
     <nav>
+
         <div class="brand">
             <img src="logo.png" alt="CampusConnect Logo">
             <h2>CampusConnect</h2>
         </div>
+
         <div class="nav-links">
             <a href="index.html">Home</a>
             <a href="resources.html">Resources</a>
             <a href="about.html">About</a>
-            <button id="logout-btn" class="signin-btn">Logout</button>
+
+            <button id="logout-btn" class="signin-btn">
+                Logout
+            </button>
         </div>
+
     </nav>
+
+
+    <!-- =========================
+         ADMIN DASHBOARD
+    ========================== -->
+
     <main class="admin-page">
+
         <div class="admin-header">
-            <p class="about-label">ADMIN PANEL</p>
-            <h1>Welcome, Admin 👑</h1>
-            <p>Manage CampusConnect resources and subjects.</p>
+
+            <p class="about-label">
+                ADMIN PANEL
+            </p>
+
+            <h1>
+                Welcome, Admin 👑
+            </h1>
+
+            <p>
+                Manage CampusConnect resources and subjects.
+            </p>
+
         </div>
+
+
+        <!-- =========================
+             MANAGEMENT CARDS
+        ========================== -->
+
         <div class="admin-grid">
-            <!-- MANAGE SUBJECTS -->
+
+            <!-- =========================
+                 SUBJECT MANAGEMENT
+            ========================== -->
+
             <div class="about-card">
-                <div class="about-icon">📚</div>
-                <h2>Manage Subjects</h2>
-                <p>Add, edit or delete subjects.</p>
-                <button onclick="addSubject()">
-                    Add Subject
-                </button>
-                <select id="admin-semester">
-                    <option value="">
-                        Select Semester
-                    </option>
-                    <option value="1">Semester 1</option>
-                    <option value="2">Semester 2</option>
-                    <option value="3">Semester 3</option>
-                    <option value="4">Semester 4</option>
-                    <option value="5">Semester 5</option>
-                    <option value="6">Semester 6</option>
-                    <option value="7">Semester 7</option>
-                    <option value="8">Semester 8</option>
-                </select>
-                <button onclick="loadSubjectsAdmin()">
-                    View Subjects
-                </button>
-                <div
-                    id="admin-subject-list"
-                    style="margin-top:20px;">
+
+                <div class="about-icon">
+                    📚
                 </div>
-                <div
-                    id="subject-form"
-                    style="display:none; margin-top:20px;">
-                    <input
-                        type="text"
-                        id="subject-name"
-                        placeholder="Enter subject name"
-                    >
-                    <input
-                        type="number"
-                        id="semester-id"
-                        placeholder="Semester number"
-                        min="1"
-                        max="8"
-                    >
-                    <button onclick="saveSubject()">
-                        Save Subject
+
+                <h2>
+                    Manage Subjects
+                </h2>
+
+                <p>
+                    Add, edit, delete and view subjects
+                    across all semesters.
+                </p>
+
+
+                <!-- SUBJECT ACTIONS -->
+
+                <div class="admin-actions">
+
+                    <button onclick="addSubject()">
+                        + Add Subject
                     </button>
-                </div>
-            </div>
-            <!-- MANAGE RESOURCES -->
-            <div class="about-card">
-                <div class="about-icon">📄</div>
-                <h2>Manage Resources</h2>
-                <p>Upload and manage study materials.</p>
-                <button onclick="addResource()">
-                    Add Resource
-                </button>
-                <div
-                    id="resource-form"
-                    style="display:none; margin-top:20px;">
-                    <input
-                        type="text"
-                        id="resource-title"
-                        placeholder="Enter resource title"
-                    >
-                    <select id="resource-type">
-                        <option value="Notes">
-                            Notes
-                        </option>
-                        <option value="PYQ">
-                            PYQ
-                        </option>
-                        <option value="Important Questions">
-                            Important Questions
-                        </option>
-                    </select>
-                    <select id="resource-semester">
+
+                    <select id="admin-semester">
+
                         <option value="">
                             Select Semester
                         </option>
-                        <option value="1">Semester 1</option>
-                        <option value="2">Semester 2</option>
-                        <option value="3">Semester 3</option>
-                        <option value="4">Semester 4</option>
-                        <option value="5">Semester 5</option>
-                        <option value="6">Semester 6</option>
-                        <option value="7">Semester 7</option>
-                        <option value="8">Semester 8</option>
+
+                        <option value="1">
+                            Semester 1
+                        </option>
+
+                        <option value="2">
+                            Semester 2
+                        </option>
+
+                        <option value="3">
+                            Semester 3
+                        </option>
+
+                        <option value="4">
+                            Semester 4
+                        </option>
+
+                        <option value="5">
+                            Semester 5
+                        </option>
+
+                        <option value="6">
+                            Semester 6
+                        </option>
+
+                        <option value="7">
+                            Semester 7
+                        </option>
+
+                        <option value="8">
+                            Semester 8
+                        </option>
+
                     </select>
+
+                    <button onclick="loadSubjectsAdmin()">
+                        View Subjects
+                    </button>
+
+                </div>
+
+
+                <!-- SUBJECT FORM -->
+
+                <div
+                    id="subject-form"
+                    class="admin-form"
+                    style="display:none;">
+
+                    <label>
+                        Subject Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="subject-name"
+                        placeholder="Enter subject name">
+
+
+                    <label>
+                        Semester Number
+                    </label>
+
+                    <input
+                        type="number"
+                        id="semester-id"
+                        placeholder="1 - 8"
+                        min="1"
+                        max="8">
+
+
+                    <button onclick="saveSubject()">
+                        Save Subject
+                    </button>
+
+                </div>
+
+
+                <!-- SUBJECT LIST -->
+
+                <div
+                    id="admin-subject-list"
+                    class="admin-list">
+                </div>
+
+            </div>
+
+
+
+            <!-- =========================
+                 RESOURCE MANAGEMENT
+            ========================== -->
+
+            <div class="about-card">
+
+                <div class="about-icon">
+                    📄
+                </div>
+
+                <h2>
+                    Manage Resources
+                </h2>
+
+                <p>
+                    Upload and manage notes, PYQs
+                    and important study materials.
+                </p>
+
+
+                <!-- RESOURCE ACTION -->
+
+                <div class="admin-actions">
+
+                    <button onclick="addResource()">
+                        + Add Resource
+                    </button>
+
+                </div>
+
+
+                <!-- RESOURCE FORM -->
+
+                <div
+                    id="resource-form"
+                    class="admin-form"
+                    style="display:none;">
+
+                    <label>
+                        Resource Title
+                    </label>
+
+                    <input
+                        type="text"
+                        id="resource-title"
+                        placeholder="Enter resource title">
+
+
+                    <label>
+                        Resource Type
+                    </label>
+
+                    <select id="resource-type">
+
+                        <option value="Notes">
+                            Notes
+                        </option>
+
+                        <option value="PYQ">
+                            PYQ
+                        </option>
+
+                        <option value="Important Questions">
+                            Important Questions
+                        </option>
+
+                    </select>
+
+
+                    <label>
+                        Semester
+                    </label>
+
+                    <select id="resource-semester">
+
+                        <option value="">
+                            Select Semester
+                        </option>
+
+                        <option value="1">
+                            Semester 1
+                        </option>
+
+                        <option value="2">
+                            Semester 2
+                        </option>
+
+                        <option value="3">
+                            Semester 3
+                        </option>
+
+                        <option value="4">
+                            Semester 4
+                        </option>
+
+                        <option value="5">
+                            Semester 5
+                        </option>
+
+                        <option value="6">
+                            Semester 6
+                        </option>
+
+                        <option value="7">
+                            Semester 7
+                        </option>
+
+                        <option value="8">
+                            Semester 8
+                        </option>
+
+                    </select>
+
+
+                    <label>
+                        Subject
+                    </label>
+
                     <select id="resource-subject">
+
                         <option value="">
                             Select Subject
                         </option>
+
                     </select>
+
+
+                    <label>
+                        PDF File
+                    </label>
+
                     <input
                         type="file"
                         id="resource-file"
-                        accept=".pdf,application/pdf"
-                    >
-                    <button onclick="saveResource()">
-                        Save Resource
-                    </button>
-                    <button onclick="loadResources()">
-                        View Resources
-                    </button>
+                        accept=".pdf,application/pdf">
+
+
+                    <div class="admin-form-buttons">
+
+                        <button onclick="saveResource()">
+                            Upload Resource
+                        </button>
+
+                        <button
+                            type="button"
+                            onclick="loadResources()">
+                            View Resources
+                        </button>
+
+                    </div>
+
+
+                    <!-- RESOURCE LIST -->
+
                     <div
                         id="resource-list"
-                        style="margin-top:20px;">
+                        class="admin-list">
                     </div>
+
                 </div>
+
             </div>
+
         </div>
+        <!-- =========================
+     USER MANAGEMENT
+========================== -->
+
+<div class="user-management">
+
+    <div class="user-management-header">
+
+        <div>
+            <p class="about-label">ADMIN</p>
+
+            <h2>👥 User Management</h2>
+
+            <p>
+                View registered CampusConnect users.
+            </p>
+        </div>
+
+        <button onclick="loadUsers()">
+            View Users
+        </button>
+
+    </div>
+
+    <div id="user-list">
+        <p>Click "View Users" to load users.</p>
+    </div>
+
+</div>
+        <!-- =========================
+     DASHBOARD STATISTICS
+========================== -->
+
+<div class="admin-stats">
+
+
+    <div class="stat-card">
+        <div class="stat-icon">👨‍🎓</div>
+        <div>
+            <h2 id="stat-students">0</h2>
+            <p>Students</p>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-icon">📚</div>
+        <div>
+            <h2 id="stat-subjects">0</h2>
+            <p>Subjects</p>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-icon">📄</div>
+        <div>
+            <h2 id="stat-resources">0</h2>
+            <p>Resources</p>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-icon">🎓</div>
+        <div>
+            <h2 id="stat-semesters">0</h2>
+            <p>Semesters</p>
+        </div>
+    </div>
+
+</div>
+
+
     </main>
-<script>
-/* =========================
-   ADMIN ACCESS
-========================= */
-const role = localStorage.getItem("userRole");
-if (role !== "ADMIN") {
-    alert("Access denied. Admin only.");
-    window.location.href = "index.html";
-}
-/* =========================
-   LOGOUT
-========================= */
-document
-    .getElementById("logout-btn")
-    .addEventListener("click", function () {
-        localStorage.removeItem("userName");
-        localStorage.removeItem("userEmail");
-        localStorage.removeItem("userRole");
-        localStorage.removeItem("authToken");
-        window.location.href = "signin.html";
-    });
-/* =========================
-   ADD SUBJECT
-========================= */
-function addSubject() {
-    document
-        .getElementById("subject-form")
-        .style.display = "block";
-}
-function saveSubject() {
-    const name =
-        document.getElementById("subject-name").value;
-    const semesterId =
-        document.getElementById("semester-id").value;
-    if (!name || !semesterId) {
-        alert(
-            "Please enter subject name and semester."
-        );
-        return;
-    }
-    const subject = {
-        name: name,
-        semesterId: Number(semesterId)
-    };
-    fetch(
-        "http://127.0.0.1:8080/api/subjects",
-        {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization":
-                    "Bearer " +
-                    localStorage.getItem("authToken")
-            },
-            body: JSON.stringify(subject)
-        }
-    )
-    .then(response => {
-        if (!response.ok) {
-            throw new Error("Subject add failed");
-        }
-        return response.json();
-    })
-    .then(data => {
-        alert(
-            "Subject added successfully!"
-        );
-        document
-            .getElementById("subject-name")
-            .value = "";
-        document
-            .getElementById("semester-id")
-            .value = "";
-    })
-    .catch(error => {
-        console.error(
-            "Subject error:",
-            error
-        );
-        alert(
-            "Unable to add subject."
-        );
-    });
-}
-/* =========================
-   ADD RESOURCE
-========================= */
-function addResource() {
-    document
-        .getElementById("resource-form")
-        .style.display = "block";
-}
-function saveResource() {
-    const title =
-        document
-            .getElementById("resource-title")
-            .value;
-    const type =
-        document
-            .getElementById("resource-type")
-            .value;
-    const file =
-        document
-            .getElementById("resource-file")
-            .files[0];
-    const subjectId =
-        document
-            .getElementById("resource-subject")
-            .value;
-    if (!title || !file || !subjectId) {
-        alert(
-            "Please fill all fields and select a PDF."
-        );
-        return;
-    }
-    const formData = new FormData();
-    formData.append("title", title);
-    formData.append("type", type);
-    formData.append("subjectId", subjectId);
-    formData.append("file", file);
-    fetch(
-        "http://127.0.0.1:8080/api/resources",
-        {
-            method: "POST",
-            headers: {
-                "Authorization":
-                    "Bearer " +
-                    localStorage.getItem("authToken")
-            },
-            body: formData
-        }
-    )
-    .then(response => {
-        if (!response.ok) {
-            throw new Error(
-                "Upload failed"
-            );
-        }
-        return response.json();
-    })
-    .then(data => {
-        alert(
-            "Resource uploaded successfully!"
-        );
-        document
-            .getElementById("resource-title")
-            .value = "";
-        document
-            .getElementById("resource-file")
-            .value = "";
-        document
-            .getElementById("resource-subject")
-            .value = "";
-    })
-    .catch(error => {
-        console.error(
-            "Resource upload error:",
-            error
-        );
-        alert(
-            "Unable to upload resource."
-        );
-    });
-}
-/* =========================
-   LOAD SUBJECTS FOR RESOURCE
-========================= */
-function loadSubjects() {
-    const semesterSelect =
-        document.getElementById(
-            "resource-semester"
-        );
-    const subjectSelect =
-        document.getElementById(
-            "resource-subject"
-        );
 
 
-    semesterSelect.addEventListener(
-        "change",
-        function () {
+
+    <!-- =========================
+         EXISTING JAVASCRIPT
+    ========================== -->
+
+    <script>
+
+        /* =========================
+           ADMIN ACCESS
+        ========================= */
+
+        const role = localStorage.getItem("userRole");
+
+        if (role !== "ADMIN") {
+
+            alert("Access denied. Admin only.");
+
+            window.location.href = "index.html";
+
+        }
+
+
+        /* =========================
+           LOGOUT
+        ========================= */
+
+        document
+            .getElementById("logout-btn")
+            .addEventListener("click", function () {
+
+                localStorage.removeItem("userName");
+                localStorage.removeItem("userEmail");
+                localStorage.removeItem("userRole");
+                localStorage.removeItem("authToken");
+
+                window.location.href = "signin.html";
+
+            });
+
+
+        /* =========================
+           ADD SUBJECT
+        ========================= */
+
+        function addSubject() {
+
+            document
+                .getElementById("subject-form")
+                .style.display = "block";
+
+        }
+
+
+        function saveSubject() {
+
+            const name =
+                document
+                    .getElementById("subject-name")
+                    .value;
 
             const semesterId =
-                this.value;
+                document
+                    .getElementById("semester-id")
+                    .value;
 
 
-            subjectSelect.innerHTML =
-                '<option value="">Select Subject</option>';
+            if (!name || !semesterId) {
 
-
-            if (!semesterId) {
+                alert(
+                    "Please enter subject name and semester."
+                );
 
                 return;
 
             }
+
+
+            const subject = {
+
+                name: name,
+
+                semesterId: Number(semesterId)
+
+            };
+
+
+            fetch(
+                "http://127.0.0.1:8080/api/subjects",
+                {
+                    method: "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json",
+
+                        "Authorization":
+                            "Bearer " +
+                            localStorage.getItem("authToken")
+
+                    },
+
+                    body:
+                        JSON.stringify(subject)
+
+                }
+            )
+
+            .then(response => {
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Subject add failed"
+                    );
+
+                }
+
+                return response.json();
+
+            })
+
+            .then(data => {
+
+                alert(
+                    "Subject added successfully!"
+                );
+
+                document
+                    .getElementById("subject-name")
+                    .value = "";
+
+                document
+                    .getElementById("semester-id")
+                    .value = "";
+
+            })
+
+            .catch(error => {
+
+                console.error(
+                    "Subject error:",
+                    error
+                );
+
+                alert(
+                    "Unable to add subject."
+                );
+
+            });
+
+        }
+
+
+        /* =========================
+           ADD RESOURCE
+        ========================= */
+
+        function addResource() {
+
+            document
+                .getElementById("resource-form")
+                .style.display = "block";
+
+        }
+        function saveResource() {
+
+            const title =
+                document
+                    .getElementById("resource-title")
+                    .value;
+
+            const type =
+                document
+                    .getElementById("resource-type")
+                    .value;
+
+            const file =
+                document
+                    .getElementById("resource-file")
+                    .files[0];
+
+            const subjectId =
+                document
+                    .getElementById("resource-subject")
+                    .value;
+
+
+            if (!title || !file || !subjectId) {
+
+                alert(
+                    "Please fill all fields and select a PDF."
+                );
+
+                return;
+
+            }
+
+
+            const formData =
+                new FormData();
+
+            formData.append(
+                "title",
+                title
+            );
+
+            formData.append(
+                "type",
+                type
+            );
+
+            formData.append(
+                "subjectId",
+                subjectId
+            );
+
+            formData.append(
+                "file",
+                file
+            );
+
+
+            fetch(
+                "http://127.0.0.1:8080/api/resources",
+                {
+                    method: "POST",
+
+                    headers: {
+
+                        "Authorization":
+                            "Bearer " +
+                            localStorage.getItem("authToken")
+
+                    },
+
+                    body: formData
+
+                }
+            )
+
+            .then(response => {
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Upload failed"
+                    );
+
+                }
+
+                return response.json();
+
+            })
+
+            .then(data => {
+
+                alert(
+                    "Resource uploaded successfully!"
+                );
+
+                document
+                    .getElementById("resource-title")
+                    .value = "";
+
+                document
+                    .getElementById("resource-file")
+                    .value = "";
+
+                document
+                    .getElementById("resource-subject")
+                    .value = "";
+
+            })
+
+            .catch(error => {
+
+                console.error(
+                    "Resource upload error:",
+                    error
+                );
+
+                alert(
+                    "Unable to upload resource."
+                );
+
+            });
+
+        }
+
+
+        /* =========================
+           LOAD SUBJECTS FOR RESOURCE
+        ========================= */
+
+        function loadSubjects() {
+
+            const semesterSelect =
+                document.getElementById(
+                    "resource-semester"
+                );
+
+            const subjectSelect =
+                document.getElementById(
+                    "resource-subject"
+                );
+
+
+            semesterSelect.addEventListener(
+                "change",
+                function () {
+
+                    const semesterId =
+                        this.value;
+
+
+                    subjectSelect.innerHTML =
+                        '<option value="">Select Subject</option>';
+
+
+                    if (!semesterId) {
+
+                        return;
+
+                    }
+
+
+                    fetch(
+                        "http://127.0.0.1:8080/api/subjects?semester=" +
+                        semesterId
+                    )
+
+                    .then(response =>
+                        response.json()
+                    )
+
+                    .then(subjects => {
+
+                        subjects.forEach(
+                            function(subject) {
+
+                                const option =
+                                    document.createElement(
+                                        "option"
+                                    );
+
+                                option.value =
+                                    subject.id;
+
+                                option.textContent =
+                                    subject.name;
+
+                                subjectSelect.appendChild(
+                                    option
+                                );
+
+                            }
+                        );
+
+                    })
+
+                    .catch(error => {
+
+                        console.error(
+                            "Subject loading error:",
+                            error
+                        );
+
+                        alert(
+                            "Unable to load subjects."
+                        );
+
+                    });
+
+                }
+            );
+
+        }
+
+
+        loadSubjects();
+
+
+        /* =========================
+           LOAD RESOURCES
+        ========================= */
+
+        function loadResources() {
+
+            const subjectId =
+                document
+                    .getElementById("resource-subject")
+                    .value;
+
+            const resourceList =
+                document
+                    .getElementById("resource-list");
+
+
+            if (!subjectId) {
+
+                alert(
+                    "Please select a subject first."
+                );
+
+                return;
+
+            }
+
+
+            resourceList.innerHTML =
+                "<p>Loading resources...</p>";
+
+
+            fetch(
+                "http://127.0.0.1:8080/api/resources?subjectId=" +
+                subjectId
+            )
+
+            .then(response =>
+                response.json()
+            )
+
+            .then(resources => {
+
+                resourceList.innerHTML = "";
+
+
+                if (resources.length === 0) {
+
+                    resourceList.innerHTML =
+                        "<p>No resources found for this subject.</p>";
+
+                    return;
+
+                }
+
+
+                resources.forEach(
+                    function(resource) {
+
+                        resourceList.innerHTML += `
+
+                            <div class="material-item">
+
+                                📄 ${resource.title}
+
+                                <button
+                                    onclick="editResource(
+                                        ${resource.id},
+                                        '${resource.title}',
+                                        '${resource.type}'
+                                    )">
+
+                                    ✏️ Edit
+
+                                </button>
+
+
+                                <button
+                                    onclick="deleteResource(
+                                        ${resource.id}
+                                    )">
+
+                                    🗑️ Delete
+
+                                </button>
+
+                            </div>
+
+                        `;
+
+                    }
+                );
+
+            })
+
+            .catch(error => {
+
+                console.error(
+                    "Resource loading error:",
+                    error
+                );
+
+                resourceList.innerHTML =
+                    "<p>Unable to load resources.</p>";
+
+            });
+
+        }
+
+
+        /* =========================
+           DELETE RESOURCE
+        ========================= */
+
+        function deleteResource(id) {
+
+            const confirmDelete =
+                confirm(
+                    "Are you sure you want to delete this resource?"
+                );
+
+
+            if (!confirmDelete) {
+
+                return;
+
+            }
+
+
+            fetch(
+                "http://127.0.0.1:8080/api/resources/" +
+                id,
+                {
+                    method: "DELETE",
+
+                    headers: {
+
+                        "Authorization":
+                            "Bearer " +
+                            localStorage.getItem("authToken")
+
+                    }
+
+                }
+            )
+
+            .then(response => {
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Delete failed"
+                    );
+
+                }
+
+                alert(
+                    "Resource deleted successfully!"
+                );
+
+                loadResources();
+
+            })
+
+            .catch(error => {
+
+                console.error(
+                    "Delete error:",
+                    error
+                );
+
+                alert(
+                    "Unable to delete resource."
+                );
+
+            });
+
+        }
+
+
+        /* =========================
+           EDIT RESOURCE
+        ========================= */
+
+        function editResource(
+            id,
+            oldTitle,
+            oldType
+        ) {
+
+            const newTitle =
+                prompt(
+                    "Enter new resource title:",
+                    oldTitle
+                );
+
+
+            if (
+                !newTitle ||
+                newTitle.trim() === ""
+            ) {
+
+                return;
+
+            }
+
+
+            const newType =
+                prompt(
+                    "Enter resource type:",
+                    oldType
+                );
+
+
+            if (
+                !newType ||
+                newType.trim() === ""
+            ) {
+
+                return;
+
+            }
+
+
+            const resource = {
+
+                title:
+                    newTitle.trim(),
+
+                type:
+                    newType.trim()
+
+            };
+
+
+            fetch(
+                "http://127.0.0.1:8080/api/resources/" +
+                id,
+                {
+                    method: "PUT",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json",
+
+                        "Authorization":
+                            "Bearer " +
+                            localStorage.getItem("authToken")
+
+                    },
+
+                    body:
+                        JSON.stringify(resource)
+
+                }
+            )
+
+            .then(response => {
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Update failed"
+                    );
+
+                }
+
+                return response.json();
+
+            })
+
+            .then(data => {
+
+                alert(
+                    "Resource updated successfully!"
+                );
+
+                loadResources();
+
+            })
+
+            .catch(error => {
+
+                console.error(
+                    "Resource update error:",
+                    error
+                );
+
+                alert(
+                    "Unable to update resource."
+                );
+
+            });
+
+        }
+
+
+        /* =========================
+           LOAD ADMIN SUBJECTS
+        ========================= */
+
+        function loadSubjectsAdmin() {
+
+            const semesterId =
+                document
+                    .getElementById("admin-semester")
+                    .value;
+
+            const subjectList =
+                document
+                    .getElementById(
+                        "admin-subject-list"
+                    );
+
+
+            if (!semesterId) {
+
+                alert(
+                    "Please select a semester first."
+                );
+
+                return;
+
+            }
+
+
+            subjectList.innerHTML =
+                "<p>Loading subjects...</p>";
 
 
             fetch(
@@ -348,23 +1149,52 @@ function loadSubjects() {
 
             .then(subjects => {
 
+                subjectList.innerHTML = "";
+
+
+                if (subjects.length === 0) {
+
+                    subjectList.innerHTML =
+                        "<p>No subjects found.</p>";
+
+                    return;
+
+                }
+
+
                 subjects.forEach(
                     function(subject) {
 
-                        const option =
-                            document.createElement(
-                                "option"
-                            );
+                        subjectList.innerHTML += `
 
-                        option.value =
-                            subject.id;
+                            <div class="material-item">
 
-                        option.textContent =
-                            subject.name;
+                                📚 ${subject.name}
 
-                        subjectSelect.appendChild(
-                            option
-                        );
+                                <button
+                                    onclick="editSubject(
+                                        ${subject.id},
+                                        '${subject.name}',
+                                        ${subject.semesterId}
+                                    )">
+
+                                    ✏️ Edit
+
+                                </button>
+
+
+                                <button
+                                    onclick="deleteSubject(
+                                        ${subject.id}
+                                    )">
+
+                                    🗑️ Delete
+
+                                </button>
+
+                            </div>
+
+                        `;
 
                     }
                 );
@@ -378,157 +1208,248 @@ function loadSubjects() {
                     error
                 );
 
+                subjectList.innerHTML =
+                    "<p>Unable to load subjects.</p>";
+
+            });
+
+        }
+
+
+        /* =========================
+           EDIT SUBJECT
+        ========================= */
+
+        function editSubject(
+            id,
+            oldName,
+            semesterId
+        ) {
+
+            const newName =
+                prompt(
+                    "Enter new subject name:",
+                    oldName
+                );
+
+
+            if (
+                !newName ||
+                newName.trim() === ""
+            ) {
+
+                return;
+
+            }
+
+
+            const subject = {
+
+                name:
+                    newName.trim(),
+
+                semesterId:
+                    semesterId
+
+            };
+
+
+            fetch(
+                "http://127.0.0.1:8080/api/subjects/" +
+                id,
+                {
+                    method: "PUT",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json",
+
+                        "Authorization":
+                            "Bearer " +
+                            localStorage.getItem("authToken")
+
+                    },
+
+                    body:
+                        JSON.stringify(subject)
+
+                }
+            )
+
+            .then(response => {
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Update failed"
+                    );
+
+                }
+
+                return response.json();
+
+            })
+
+            .then(data => {
+
                 alert(
-                    "Unable to load subjects."
+                    "Subject updated successfully!"
+                );
+
+                loadSubjectsAdmin();
+
+            })
+
+            .catch(error => {
+
+                console.error(
+                    "Subject update error:",
+                    error
+                );
+
+                alert(
+                    "Unable to update subject."
                 );
 
             });
 
         }
-    );
-}
-
-loadSubjects();
 
 
-/* =========================
-   LOAD RESOURCES
-========================= */
+        /* =========================
+           DELETE SUBJECT
+        ========================= */
 
-function loadResources() {
+        function deleteSubject(id) {
 
-    const subjectId =
-        document
-            .getElementById("resource-subject")
-            .value;
-
-    const resourceList =
-        document
-            .getElementById("resource-list");
+            const confirmDelete =
+                confirm(
+                    "Are you sure you want to delete this subject?"
+                );
 
 
-    if (!subjectId) {
+            if (!confirmDelete) {
 
-        alert(
-            "Please select a subject first."
-        );
-
-        return;
-    }
-
-
-    resourceList.innerHTML =
-        "<p>Loading resources...</p>";
-
-
-    fetch(
-        "http://127.0.0.1:8080/api/resources?subjectId=" +
-        subjectId
-    )
-
-    .then(response =>
-        response.json()
-    )
-
-    .then(resources => {
-
-        resourceList.innerHTML = "";
-
-
-        if (resources.length === 0) {
-
-            resourceList.innerHTML =
-                "<p>No resources found for this subject.</p>";
-
-            return;
-        }
-
-
-        resources.forEach(
-            function(resource) {
-
-                resourceList.innerHTML += `
-
-                    <div class="material-item">
-
-                        📄 ${resource.title}
-
-                        <button
-                            onclick="editResource(
-                                ${resource.id},
-                                '${resource.title}',
-                                '${resource.type}'
-                            )">
-
-                            ✏️ Edit
-
-                        </button>
-
-
-                        <button
-                            onclick="deleteResource(
-                                ${resource.id}
-                            )">
-
-                            🗑️ Delete
-
-                        </button>
-
-                    </div>
-
-                `;
+                return;
 
             }
-        );
 
-    })
 
-    .catch(error => {
+            fetch(
+                "http://127.0.0.1:8080/api/subjects/" +
+                id,
+                {
+                    method: "DELETE",
 
-        console.error(
-            "Resource loading error:",
-            error
-        );
+                    headers: {
 
-        resourceList.innerHTML =
-            "<p>Unable to load resources.</p>";
+                        "Authorization":
+                            "Bearer " +
+                            localStorage.getItem("authToken")
 
-    });
+                    }
+
+                }
+            )
+
+            .then(response => {
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Delete failed"
+                    );
+
+                }
+
+                alert(
+                    "Subject deleted successfully!"
+                );
+
+                loadSubjectsAdmin();
+
+            })
+
+            .catch(error => {
+
+                console.error(
+                    "Subject delete error:",
+                    error
+                );
+
+                alert(
+                    "Unable to delete subject."
+                );
+
+            });
+
+        }
+/* =========================
+   LOAD DASHBOARD STATISTICS
+========================= */
+
+function loadAdminStats() {
+
+    fetch("http://127.0.0.1:8080/api/admin/stats")
+
+        .then(response => {
+
+            if (!response.ok) {
+                throw new Error("Stats loading failed");
+            }
+
+            return response.json();
+
+        })
+
+        .then(stats => {
+
+            document.getElementById("stat-students").textContent =
+                stats.students;
+
+            document.getElementById("stat-subjects").textContent =
+                stats.subjects;
+
+            document.getElementById("stat-resources").textContent =
+                stats.resources;
+
+            document.getElementById("stat-semesters").textContent =
+                stats.semesters;
+
+        })
+
+        .catch(error => {
+
+            console.error(
+                "Admin stats error:",
+                error
+            );
+
+        });
 
 }
 
-
+loadAdminStats();
 /* =========================
-   DELETE RESOURCE
+   LOAD USERS
 ========================= */
 
-function deleteResource(id) {
+function loadUsers() {
 
-    const confirmDelete =
-        confirm(
-            "Are you sure you want to delete this resource?"
-        );
+    const userList =
+        document.getElementById("user-list");
 
-
-    if (!confirmDelete) {
-
-        return;
-
-    }
-
+    userList.innerHTML =
+        "<p>Loading users...</p>";
 
     fetch(
-        "http://127.0.0.1:8080/api/resources/" +
-        id,
+        "http://127.0.0.1:8080/api/admin/users",
         {
-            method: "DELETE",
-
             headers: {
-
                 "Authorization":
                     "Bearer " +
                     localStorage.getItem("authToken")
-
             }
         }
     )
@@ -536,235 +1457,641 @@ function deleteResource(id) {
     .then(response => {
 
         if (!response.ok) {
-
-            throw new Error(
-                "Delete failed"
-            );
-
+            throw new Error("Unable to load users");
         }
 
-        alert(
-            "Resource deleted successfully!"
-        );
+        return response.json();
 
-        loadResources();
+    })
+
+    .then(users => {
+
+        userList.innerHTML = "";
+
+        if (users.length === 0) {
+
+            userList.innerHTML =
+                "<p>No users registered yet.</p>";
+
+            return;
+        }
+
+        users.forEach(function(user) {
+
+            userList.innerHTML += `
+
+    <div class="user-row">
+
+        <div class="user-info">
+
+            <strong>
+                ${user.name}
+            </strong>
+
+            <span>
+                ${user.email}
+            </span>
+
+        </div>
+
+        <span class="user-role">
+            ${user.role}
+        </span>
+
+        ${
+            user.role === "ADMIN"
+                ? ""
+                : `
+                    <button
+                        class="delete-user-btn"
+                        onclick="deleteUser(${user.id})">
+                        🗑️ Delete
+                    </button>
+                `
+        }
+
+    </div>
+
+`;
+
+        });
 
     })
 
     .catch(error => {
 
         console.error(
-            "Delete error:",
+            "User loading error:",
+            error
+        );
+
+        userList.innerHTML =
+            "<p>Unable to load users.</p>";
+
+    });
+}
+/* =========================
+   DELETE USER
+========================= */
+
+function deleteUser(id) {
+
+    const confirmDelete =
+        confirm(
+            "Are you sure you want to delete this user?"
+        );
+
+    if (!confirmDelete) {
+        return;
+    }
+
+    fetch(
+        "http://127.0.0.1:8080/api/admin/users/" + id,
+        {
+            method: "DELETE",
+
+            headers: {
+                "Authorization":
+                    "Bearer " +
+                    localStorage.getItem("authToken")
+            }
+        }
+    )
+
+    .then(response => {
+
+        if (!response.ok) {
+            throw new Error("Delete user failed");
+        }
+
+        return response.text();
+
+    })
+
+    .then(message => {
+
+        alert("User deleted successfully!");
+
+        loadUsers();
+
+        loadAdminStats();
+
+    })
+
+    .catch(error => {
+
+        console.error(
+            "User delete error:",
             error
         );
 
         alert(
-            "Unable to delete resource."
+            "Unable to delete user."
         );
 
     });
-
 }
+    </script>
+<!-- ===============================
+     PROJECT REVIEW
+================================ -->
+
+<section class="admin-section">
+
+    <div class="admin-section-header">
+
+        <div>
+            <h2>🚀 Project Submissions</h2>
+
+            <p>
+                Review student projects before publishing them.
+            </p>
+        </div>
+
+    </div>
 
 
-/* =========================
-   EDIT RESOURCE
-========================= */
+    <div id="admin-projects-container">
 
-function editResource(
-    id,
-    oldTitle,
-    oldType
-) {
+        <p>
+            Loading project submissions...
+        </p>
 
-    const newTitle =
-        prompt(
-            "Enter new resource title:",
-            oldTitle
-        );
+    </div>
+
+</section>
+<script>
+
+    // ===============================
+    // LOAD PROJECT SUBMISSIONS
+    // ===============================
+
+    function loadAdminProjects() {
+
+        const token =
+            localStorage.getItem("authToken");
+
+        fetch(
+            "http://127.0.0.1:8080/api/admin/projects",
+            {
+                headers: {
+                    "Authorization":
+                        "Bearer " + token
+                }
+            }
+        )
+
+        .then(async response => {
+
+            const data =
+                await response.text();
+
+            if (!response.ok) {
+                throw new Error(data);
+            }
+
+            return JSON.parse(data);
+
+        })
+
+        .then(projects => {
+
+            const container =
+                document.getElementById(
+                    "admin-projects-container"
+                );
+
+            container.innerHTML = "";
 
 
-    if (
-        !newTitle ||
-        newTitle.trim() === ""
-    ) {
+            if (projects.length === 0) {
 
-        return;
+                container.innerHTML =
+                    "<p>No project submissions yet.</p>";
+
+                return;
+            }
+
+
+            projects.forEach(project => {
+
+                const projectCard =
+                    document.createElement("div");
+
+                projectCard.className =
+                    "admin-project-card";
+
+
+                projectCard.innerHTML = `
+
+                    <div class="admin-project-info">
+
+                        <h3>
+                            ${project.title}
+                        </h3>
+
+                        <p>
+                            👤 Student:
+                            <strong>
+                                ${project.studentName}
+                            </strong>
+                        </p>
+
+                        <p>
+                            🛠️ Technologies:
+                            ${project.technologies || "Not specified"}
+                        </p>
+
+                        <p>
+                            ${project.description}
+                        </p>
+
+                        <p>
+                            📌 Status:
+                            <strong>
+                                ${project.status}
+                            </strong>
+                        </p>
+
+                        ${
+                            project.githubUrl
+                            ? `
+                                <a
+                                    href="${project.githubUrl}"
+                                    target="_blank"
+                                >
+                                    GitHub →
+                                </a>
+                              `
+                            : ""
+                        }
+
+                        ${
+                            project.liveDemoUrl
+                            ? `
+                                <a
+                                    href="${project.liveDemoUrl}"
+                                    target="_blank"
+                                >
+                                    Live Demo →
+                                </a>
+                              `
+                            : ""
+                        }
+
+                    </div>
+
+
+                   <div class="admin-project-actions">
+
+    <button
+        onclick="updateProjectStatus(
+            ${project.id},
+            'APPROVED'
+        )"
+    >
+        ✅ Approve
+    </button>
+
+   <button
+    class="admin-reject-project-btn"
+    onclick="rejectProject(${project.id})"
+>
+    ❌ Reject
+</button>
+
+    <button
+        class="admin-delete-project-btn"
+        onclick="deleteProject(${project.id})"
+    >
+        🗑️ Delete
+    </button>
+
+</div>
+
+                `;
+
+
+                container.appendChild(projectCard);
+
+            });
+
+        })
+
+        .catch(error => {
+
+            console.error(
+                "Admin projects error:",
+                error
+            );
+
+            document.getElementById(
+                "admin-projects-container"
+            ).innerHTML =
+                "<p>Unable to load project submissions.</p>";
+
+        });
 
     }
+    // ===============================
+// OPPORTUNITY MANAGEMENT
+// ===============================
 
+function addOpportunity() {
 
-    const newType =
-        prompt(
-            "Enter resource type:",
-            oldType
-        );
+    const token = localStorage.getItem("authToken");
 
+    const opportunity = {
 
-    if (
-        !newType ||
-        newType.trim() === ""
-    ) {
-
-        return;
-
-    }
-
-
-    const resource = {
+        company:
+            document.getElementById("opp-company").value,
 
         title:
-            newTitle.trim(),
+            document.getElementById("opp-title").value,
 
         type:
-            newType.trim()
+            document.getElementById("opp-type").value,
 
+        role:
+            document.getElementById("opp-role").value,
+
+        location:
+            document.getElementById("opp-location").value,
+
+        workMode:
+            document.getElementById("opp-work-mode").value,
+
+        eligibility:
+            document.getElementById("opp-eligibility").value,
+
+        cgpa:
+            document.getElementById("opp-cgpa").value,
+
+        skills:
+            document.getElementById("opp-skills").value,
+
+        stipend:
+            document.getElementById("opp-stipend").value,
+
+        salary:
+            document.getElementById("opp-salary").value,
+
+        deadline:
+            document.getElementById("opp-deadline").value,
+
+        applyUrl:
+            document.getElementById("opp-apply-url").value,
+
+        description:
+            document.getElementById("opp-description").value
     };
 
 
+    if (!opportunity.company ||
+        !opportunity.title ||
+        !opportunity.role ||
+        !opportunity.description) {
+
+        alert("Please fill all required fields.");
+        return;
+    }
+
+
     fetch(
-        "http://127.0.0.1:8080/api/resources/" +
-        id,
+        "http://127.0.0.1:8080/api/admin/opportunities",
         {
-            method: "PUT",
+            method: "POST",
 
             headers: {
+                "Authorization":
+                    "Bearer " + token,
 
                 "Content-Type":
-                    "application/json",
-
-                "Authorization":
-                    "Bearer " +
-                    localStorage.getItem("authToken")
-
+                    "application/json"
             },
 
             body:
-                JSON.stringify(resource)
-
+                JSON.stringify(opportunity)
         }
     )
 
-    .then(response => {
+    .then(async response => {
+
+        const data =
+            await response.text();
 
         if (!response.ok) {
-
-            throw new Error(
-                "Update failed"
-            );
-
+            throw new Error(data);
         }
 
-        return response.json();
-
+        return JSON.parse(data);
     })
 
-    .then(data => {
+    .then(() => {
 
-        alert(
-            "Resource updated successfully!"
-        );
+        alert("✅ Opportunity added successfully!");
 
-        loadResources();
+        document
+            .getElementById("opp-company")
+            .value = "";
 
+        document
+            .getElementById("opp-title")
+            .value = "";
+
+        document
+            .getElementById("opp-role")
+            .value = "";
+
+        document
+            .getElementById("opp-location")
+            .value = "";
+
+        document
+            .getElementById("opp-eligibility")
+            .value = "";
+
+        document
+            .getElementById("opp-cgpa")
+            .value = "";
+
+        document
+            .getElementById("opp-skills")
+            .value = "";
+
+        document
+            .getElementById("opp-stipend")
+            .value = "";
+
+        document
+            .getElementById("opp-salary")
+            .value = "";
+
+        document
+            .getElementById("opp-deadline")
+            .value = "";
+
+        document
+            .getElementById("opp-apply-url")
+            .value = "";
+
+        document
+            .getElementById("opp-description")
+            .value = "";
+
+        loadAdminOpportunities();
     })
 
     .catch(error => {
 
         console.error(
-            "Resource update error:",
+            "Opportunity error:",
             error
         );
 
         alert(
-            "Unable to update resource."
+            "Unable to add opportunity."
         );
-
     });
-
 }
 
 
-/* =========================
-   LOAD ADMIN SUBJECTS
-========================= */
+// ===============================
+// LOAD ADMIN OPPORTUNITIES
+// ===============================
 
-function loadSubjectsAdmin() {
+function loadAdminOpportunities() {
 
-    const semesterId =
-        document
-            .getElementById("admin-semester")
-            .value;
+    const token =
+        localStorage.getItem("authToken");
 
-    const subjectList =
-        document
-            .getElementById(
-                "admin-subject-list"
-            );
-
-
-    if (!semesterId) {
-
-        alert(
-            "Please select a semester first."
+    const container =
+        document.getElementById(
+            "admin-opportunities-container"
         );
 
-        return;
-    }
-
-
-    subjectList.innerHTML =
-        "<p>Loading subjects...</p>";
-
+    if (!container) return;
 
     fetch(
-        "http://127.0.0.1:8080/api/subjects?semester=" +
-        semesterId
+        "http://127.0.0.1:8080/api/admin/opportunities",
+        {
+            headers: {
+                "Authorization":
+                    "Bearer " + token
+            }
+        }
     )
 
-    .then(response =>
-        response.json()
-    )
+    .then(async response => {
 
-    .then(subjects => {
+        const data =
+            await response.text();
 
-        subjectList.innerHTML = "";
+        if (!response.ok) {
+            throw new Error(data);
+        }
 
+        return JSON.parse(data);
+    })
 
-        if (subjects.length === 0) {
+    .then(opportunities => {
 
-            subjectList.innerHTML =
-                "<p>No subjects found.</p>";
+        container.innerHTML = "";
+
+        if (opportunities.length === 0) {
+
+            container.innerHTML =
+                "<p>No opportunities added yet.</p>";
 
             return;
-
         }
 
 
-        subjects.forEach(
-            function(subject) {
+        opportunities.forEach(
+            function(opportunity) {
 
-                subjectList.innerHTML += `
+                const card =
+                    document.createElement("div");
 
-                    <div class="material-item">
+                card.className =
+                    "admin-opportunity-card";
 
-                        📚 ${subject.name}
+                card.innerHTML = `
+
+                    <div class="admin-opportunity-info">
+
+                        <h3>
+                            ${opportunity.company}
+                        </h3>
+
+                        <p>
+                            💼
+                            <strong>
+                                ${opportunity.title}
+                            </strong>
+                        </p>
+
+                        <p>
+                            📌 Type:
+                            ${opportunity.type}
+                        </p>
+
+                        <p>
+                            🛠️ Role:
+                            ${opportunity.role || "Not specified"}
+                        </p>
+
+                        <p>
+                            📍
+                            ${opportunity.location || "Not specified"}
+                            |
+                            ${opportunity.workMode || "Not specified"}
+                        </p>
+
+                        <p>
+                            🎓 Eligibility:
+                            ${opportunity.eligibility || "Not specified"}
+                        </p>
+
+                        <p>
+                            💻 Skills:
+                            ${opportunity.skills || "Not specified"}
+                        </p>
+
+                        <p>
+                            📅 Deadline:
+                            ${opportunity.deadline || "Not specified"}
+                        </p>
+
+                        <p>
+                            📌 Status:
+                            <strong>
+                                ${opportunity.status}
+                            </strong>
+                        </p>
+
+                    </div>
+
+                    <div class="admin-opportunity-actions">
 
                         <button
-                            onclick="editSubject(
-                                ${subject.id},
-                                '${subject.name}',
-                                ${subject.semesterId}
+                            onclick="toggleOpportunityStatus(
+                                ${opportunity.id},
+                                '${opportunity.status === "PUBLISHED" ? "HIDDEN" : "PUBLISHED"}'
                             )">
 
-                            ✏️ Edit
+                            ${
+                                opportunity.status === "PUBLISHED"
+                                ? "🙈 Hide"
+                                : "✅ Publish"
+                            }
 
                         </button>
 
-
                         <button
-                            onclick="deleteSubject(
-                                ${subject.id}
+                            class="admin-delete-opportunity-btn"
+                            onclick="deleteOpportunity(
+                                ${opportunity.id}
                             )">
 
                             🗑️ Delete
@@ -772,184 +2099,390 @@ function loadSubjectsAdmin() {
                         </button>
 
                     </div>
-
                 `;
 
+                container.appendChild(card);
             }
         );
-
     })
 
     .catch(error => {
 
         console.error(
-            "Subject loading error:",
+            "Load opportunities error:",
             error
         );
 
-        subjectList.innerHTML =
-            "<p>Unable to load subjects.</p>";
-
+        container.innerHTML =
+            "<p>Unable to load opportunities.</p>";
     });
-
 }
 
 
-/* =========================
-   EDIT SUBJECT
-========================= */
+// ===============================
+// PUBLISH / HIDE
+// ===============================
 
-function editSubject(
-    id,
-    oldName,
-    semesterId
+function toggleOpportunityStatus(
+    opportunityId,
+    status
 ) {
 
-    const newName =
-        prompt(
-            "Enter new subject name:",
-            oldName
-        );
-
-
-    if (
-        !newName ||
-        newName.trim() === ""
-    ) {
-
-        return;
-
-    }
-
-
-    const subject = {
-
-        name:
-            newName.trim(),
-
-        semesterId:
-            semesterId
-
-    };
-
+    const token =
+        localStorage.getItem("authToken");
 
     fetch(
-        "http://127.0.0.1:8080/api/subjects/" +
-        id,
+        "http://127.0.0.1:8080/api/admin/opportunities/"
+        + opportunityId
+        + "/status?status="
+        + status,
         {
             method: "PUT",
 
             headers: {
-
-                "Content-Type":
-                    "application/json",
-
                 "Authorization":
-                    "Bearer " +
-                    localStorage.getItem("authToken")
-
-            },
-
-            body:
-                JSON.stringify(subject)
-
+                    "Bearer " + token
+            }
         }
     )
 
-    .then(response => {
+    .then(async response => {
+
+        const data =
+            await response.text();
 
         if (!response.ok) {
-
-            throw new Error(
-                "Update failed"
-            );
-
+            throw new Error(data);
         }
 
-        return response.json();
-
+        return JSON.parse(data);
     })
 
-    .then(data => {
+    .then(() => {
 
         alert(
-            "Subject updated successfully!"
+            status === "PUBLISHED"
+            ? "✅ Opportunity published!"
+            : "🙈 Opportunity hidden!"
         );
 
-        loadSubjectsAdmin();
-
+        loadAdminOpportunities();
     })
 
     .catch(error => {
 
         console.error(
-            "Subject update error:",
+            "Status update error:",
             error
         );
 
         alert(
-            "Unable to update subject."
+            "Unable to update opportunity."
         );
-
     });
-
 }
 
 
-/* =========================
-   DELETE SUBJECT
-========================= */
+// ===============================
+// DELETE OPPORTUNITY
+// ===============================
 
-function deleteSubject(id) {
+function deleteOpportunity(
+    opportunityId
+) {
 
-    const confirmDelete =
-        confirm(
-            "Are you sure you want to delete this subject?"
-        );
-
-
-    if (!confirmDelete) {
-
+    if (
+        !confirm(
+            "Are you sure you want to permanently delete this opportunity?"
+        )
+    ) {
         return;
-
     }
 
+    const token =
+        localStorage.getItem("authToken");
 
     fetch(
-        "http://127.0.0.1:8080/api/subjects/" +
-        id,
+        "http://127.0.0.1:8080/api/admin/opportunities/"
+        + opportunityId,
         {
             method: "DELETE",
 
             headers: {
                 "Authorization":
-                    "Bearer " +
-                    localStorage.getItem("authToken")
-
+                    "Bearer " + token
             }
         }
     )
-    .then(response => {
+
+    .then(async response => {
+
+        const data =
+            await response.text();
+
         if (!response.ok) {
-            throw new Error(
-                "Delete failed"
-            );
+            throw new Error(data);
         }
-        alert(
-            "Subject deleted successfully!"
-        );
-        loadSubjectsAdmin();
+
+        return data;
     })
+
+    .then(() => {
+
+        alert(
+            "🗑️ Opportunity deleted successfully!"
+        );
+
+        loadAdminOpportunities();
+    })
+
     .catch(error => {
+
         console.error(
-            "Subject delete error:",
+            "Delete opportunity error:",
             error
         );
+
         alert(
-            "Unable to delete subject."
+            "Unable to delete opportunity."
         );
     });
 }
+
+
+// Load opportunities when admin page opens
+loadAdminOpportunities();
+
+
+
+    // ===============================
+    // UPDATE PROJECT STATUS
+    // ===============================
+
+    function updateProjectStatus(
+        projectId,
+        status
+    ) {
+
+        const token =
+            localStorage.getItem("authToken");
+
+
+        fetch(
+            "http://127.0.0.1:8080/api/admin/projects/"
+            + projectId
+            + "/status?status="
+            + status,
+            {
+                method: "PUT",
+
+                headers: {
+                    "Authorization":
+                        "Bearer " + token
+                }
+            }
+        )
+
+        .then(async response => {
+
+            const data =
+                await response.text();
+
+            if (!response.ok) {
+                throw new Error(data);
+            }
+
+            return JSON.parse(data);
+
+        })
+
+        .then(() => {
+
+            alert(
+                status === "APPROVED"
+                    ? "✅ Project approved!"
+                    : "❌ Project rejected!"
+            );
+
+            loadAdminProjects();
+
+        })
+
+        .catch(error => {
+
+            console.error(
+                "Project status error:",
+                error
+            );
+
+            alert(
+                "Unable to update project status."
+            );
+
+        });
+
+    }
+// ===============================
+// DELETE PROJECT
+// ===============================
+
+function deleteProject(projectId) {
+
+    const confirmDelete =
+        confirm(
+            "Are you sure you want to permanently delete this project?"
+        );
+
+    if (!confirmDelete) {
+        return;
+    }
+
+    const token =
+        localStorage.getItem("authToken");
+
+    fetch(
+        "http://127.0.0.1:8080/api/admin/projects/"
+        + projectId,
+        {
+            method: "DELETE",
+
+            headers: {
+                "Authorization":
+                    "Bearer " + token
+            }
+        }
+    )
+
+    .then(async response => {
+
+        const data =
+            await response.text();
+
+        if (!response.ok) {
+            throw new Error(data);
+        }
+
+        return data;
+
+    })
+
+    .then(() => {
+
+        alert(
+            "🗑️ Project deleted successfully!"
+        );
+
+        loadAdminProjects();
+
+    })
+
+    .catch(error => {
+
+        console.error(
+            "Project delete error:",
+            error
+        );
+
+        alert(
+            "Unable to delete project."
+        );
+
+    });
+}
+// ===============================
+// REJECT PROJECT
+// ===============================
+
+function rejectProject(projectId) {
+
+    const confirmReject =
+        confirm(
+            "Are you sure you want to reject this project? It will be permanently deleted."
+        );
+
+    if (!confirmReject) {
+        return;
+    }
+
+    deleteProject(projectId);
+}
+    // ===============================
+    // LOAD PROJECTS
+    // ===============================
+
+    loadAdminProjects();
+
 </script>
+<!-- ===============================
+     OPPORTUNITY MANAGEMENT
+================================ -->
+
+<section class="admin-section">
+
+    <div class="admin-section-header">
+        <div>
+            <h2>💼 Placement & Internship Opportunities</h2>
+            <p>Add and manage opportunities for students.</p>
+        </div>
+    </div>
+
+    <div class="opportunity-admin-form">
+
+        <input type="text" id="opp-company"
+               placeholder="Company Name">
+
+        <input type="text" id="opp-title"
+               placeholder="Opportunity Title">
+
+        <select id="opp-type">
+            <option value="INTERNSHIP">Internship</option>
+            <option value="PLACEMENT">Placement</option>
+        </select>
+
+        <input type="text" id="opp-role"
+               placeholder="Role">
+
+        <input type="text" id="opp-location"
+               placeholder="Location">
+
+        <select id="opp-work-mode">
+            <option value="ON-SITE">On-site</option>
+            <option value="HYBRID">Hybrid</option>
+            <option value="REMOTE">Remote</option>
+        </select>
+
+        <input type="text" id="opp-eligibility"
+               placeholder="Eligibility">
+
+        <input type="text" id="opp-cgpa"
+               placeholder="Minimum CGPA">
+
+        <input type="text" id="opp-skills"
+               placeholder="Required Skills">
+
+        <input type="text" id="opp-stipend"
+               placeholder="Stipend">
+
+        <input type="text" id="opp-salary"
+               placeholder="Salary">
+
+        <input type="date" id="opp-deadline">
+
+        <input type="url" id="opp-apply-url"
+               placeholder="Apply URL">
+
+        <textarea id="opp-description"
+                  placeholder="Opportunity Description"></textarea>
+
+        <button onclick="addOpportunity()">
+            ➕ Add Opportunity
+        </button>
+
+    </div>
+
+    <div id="admin-opportunities-container">
+        <p>Loading opportunities...</p>
+    </div>
 </body>
+</section>
 </html>

@@ -23,13 +23,15 @@ import java.util.List;
 public class ResourceController {
     private final ResourceRepository resourceRepository;
     private final AdminAuthService adminAuthService;
+    private final SubjectRepository subjectRepository;
     public ResourceController(
-            ResourceRepository resourceRepository,
-            AdminAuthService adminAuthService) {
-
-        this.resourceRepository = resourceRepository;
-        this.adminAuthService = adminAuthService;
-    }
+        ResourceRepository resourceRepository,
+        SubjectRepository subjectRepository,
+        AdminAuthService adminAuthService) {
+    this.resourceRepository = resourceRepository;
+    this.subjectRepository = subjectRepository;
+    this.adminAuthService = adminAuthService;
+}
     // GET RESOURCES
     @GetMapping("/api/resources")
     public List<Resource> getResources(
@@ -37,6 +39,30 @@ public class ResourceController {
 
         return resourceRepository.findBySubjectId(subjectId);
     }
+     
+    // SEARCH RESOURCES
+@GetMapping("/api/resources/search")
+public List<Resource> searchResources(
+        @RequestParam String query) {
+    List<Resource> resources =
+            resourceRepository
+                    .findByTitleContainingIgnoreCase(query);
+    List<Subject> subjects =
+            subjectRepository
+                    .findByNameContainingIgnoreCase(query);
+    for (Subject subject : subjects) {
+        List<Resource> subjectResources =
+                resourceRepository
+                        .findBySubjectId(subject.getId());
+        for (Resource resource : subjectResources) {
+            if (!resources.contains(resource)) {
+                resources.add(resource);
+            }
+        }
+    }
+    return resources;
+}
+
     // ADD RESOURCE
     @PostMapping("/api/resources")
     public ResponseEntity<?> addResource(

@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+    <title>Projects - CampusConnect</title>
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+</head>
+<body>
+    <!-- ===============================
+         NAVBAR
+    ================================ -->
+    <nav>
+        <div class="brand">
+            <img
+                src="logo.png"
+                alt="CampusConnect Logo"
+            >
+            <h2>
+                CampusConnect
+            </h2>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">
+                Home
+            </a>
+            <a href="resources.html">
+                Resources
+            </a>
+            <a href="about.html">
+                About
+            </a>
+            <a
+                href="profile.html"
+                class="me-btn"
+            >
+                👤 Me
+            </a>
+            <a
+                href="#"
+                class="logout-btn"
+                id="logout-btn"
+            >
+                Logout
+            </a>
+        </div>
+    </nav>
+    <!-- ===============================
+         PROJECTS PAGE
+    ================================ -->
+    <main class="profile-page">
+        <div class="profile-container">
+            <div class="profile-header">
+                <div class="profile-avatar">
+                    💻
+                </div>
+                <div>
+                    <h1>
+                        Student Projects
+                    </h1>
+                    <p>
+                        Explore projects created and shared by CampusConnect students.
+                    </p>
+                </div>
+            </div>
+            <!-- SUBMIT PROJECT -->
+            <section class="profile-card">
+                <h2>
+                    🚀 Share Your Project
+                </h2>
+                <p>
+                    Have you built something interesting?
+                    Submit your project for review by the CampusConnect admin.
+                </p>
+               <div id="project-form" class="project-form">
+
+    <div class="form-group">
+        <label for="project-title">Project Title</label>
+        <input
+            type="text"
+            id="project-title"
+            placeholder="Enter your project title"
+            required
+        >
+    </div>
+
+
+    <div class="form-group">
+        <label for="student-name">Student Name</label>
+        <input
+            type="text"
+            id="student-name"
+            readonly
+        >
+    </div>
+
+
+    <div class="form-group">
+        <label for="project-description">Description</label>
+        <textarea
+            id="project-description"
+            rows="5"
+            placeholder="Describe your project..."
+            required
+        ></textarea>
+    </div>
+
+
+    <div class="form-group">
+        <label for="project-technologies">Technologies</label>
+        <input
+            type="text"
+            id="project-technologies"
+            placeholder="e.g. Java, Spring Boot, MySQL, HTML, CSS"
+        >
+    </div>
+
+
+    <div class="form-group">
+        <label for="github-url">GitHub URL</label>
+        <input
+            type="url"
+            id="github-url"
+            placeholder="https://github.com/username/project"
+        >
+    </div>
+
+
+    <div class="form-group">
+        <label for="live-demo-url">Live Demo URL</label>
+        <input
+            type="url"
+            id="live-demo-url"
+            placeholder="https://your-project.com"
+        >
+    </div>
+
+
+    <div class="form-group">
+        <label for="project-image">Project Image</label>
+        <input
+            type="file"
+            id="project-image"
+            accept="image/png, image/jpeg, image/webp"
+        >
+        <small>
+            Upload a JPG, PNG or WebP image.
+        </small>
+    </div>
+
+
+    <button
+        type="button"
+        class="profile-logout-btn"
+        onclick="submitProject()"
+    >
+        🚀 Submit Project
+    </button>
+
+</div>
+            </section>
+            <!-- APPROVED PROJECTS -->
+            <section class="profile-card">
+                <h2>
+                    📚 Approved Projects
+                </h2>
+                <div id="projects-container">
+                    <p>
+                        Loading projects...
+                    </p>
+                </div>
+            </section>
+        </div>
+    </main>
+    <script>
+        //===============================
+        // CHECK LOGIN
+        // ===============================
+        const authToken =
+            localStorage.getItem("authToken");
+        if (!authToken) {
+            window.location.href =
+                "signin.html";
+        }
+        // ===============================
+        // LOGOUT
+        // ===============================
+        function logout() {
+            localStorage.removeItem(
+                "authToken"
+            );
+            localStorage.removeItem(
+                "userName"
+            );
+            localStorage.removeItem(
+                "userEmail"
+            );
+            localStorage.removeItem(
+                "userRole"
+            );
+            window.location.href =
+                "index.html";
+        }
+        document.getElementById(
+            "logout-btn"
+        ).addEventListener(
+            "click",
+            function(event) {
+                event.preventDefault();
+                logout();
+            }
+        );
+        // ===============================
+        // OPEN PROJECT FORM
+        // ===============================
+      function loadStudentName() {
+
+    const name =
+        localStorage.getItem("userName");
+
+    const studentName =
+        document.getElementById("student-name");
+
+    if (studentName && name) {
+        studentName.value = name;
+    }
+
+}
+        // ===============================
+        // LOAD APPROVED PROJECTS
+        // ===============================
+        function loadProjects() {
+            fetch(
+                "http://127.0.0.1:8080/api/projects"
+            )
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(
+                        "Unable to load projects"
+                    );
+                }
+                return response.json();
+            })
+            .then(projects => {
+                const container =
+                    document.getElementById(
+                        "projects-container"
+                    );
+                container.innerHTML = "";
+                if (projects.length === 0) {
+                    container.innerHTML = `
+                        <p>
+                            No approved projects yet.
+                            Be the first student to share one!
+                        </p>
+                    `;
+                    return;
+                }
+               projects.forEach(
+    function(project) {
+
+        container.innerHTML += `
+            <div
+    class="project-card"
+    onclick="openProjectDetails(${project.id})"
+>
+                <div class="project-card-image">
+
+                    ${
+                        project.imagePath
+                        ? `
+                            <img
+    src="http://127.0.0.1:8080${project.imagePath}"
+    alt="${project.title}"
+>
+                          `
+                        : `
+                            <div class="project-placeholder">
+                                💻
+                            </div>
+                          `
+                    }
+
+                </div>
+
+
+                <div class="project-card-content">
+
+                    <h3>
+                        ${project.title}
+                    </h3>
+
+
+                    <p class="project-student">
+                        👤 By ${project.studentName}
+                    </p>
+
+
+                    <p class="project-description">
+                        ${project.description}
+                    </p>
+
+
+                    <div class="project-technologies">
+
+                        ${
+                            project.technologies
+                            ? project.technologies
+                                .split(",")
+                                .map(
+                                    tech =>
+                                    `<span>${tech.trim()}</span>`
+                                )
+                                .join("")
+                            : `
+                                <span>
+                                    Technology not specified
+                                </span>
+                              `
+                        }
+
+                    </div>
+
+
+                    <div class="project-links">
+
+                        ${
+                            project.githubUrl
+                            ? `
+                                <a
+                                    href="${project.githubUrl}"
+                                    target="_blank"
+                                >
+                                    GitHub →
+                                </a>
+                              `
+                            : ""
+                        }
+
+
+                        ${
+                            project.liveDemoUrl
+                            ? `
+                                <a
+                                    href="${project.liveDemoUrl}"
+                                    target="_blank"
+                                >
+                                    Live Demo →
+                                </a>
+                              `
+                            : ""
+                        }
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        `;
+
+    }
+);
+            })
+            .catch(error => {
+                console.error(
+                    "Projects error:",
+                    error
+                );
+                document.getElementById(
+                    "projects-container"
+                ).innerHTML = `
+                    <p>
+                        Unable to load projects.
+                    </p>
+                `;
+            });
+        }
+        // ===============================
+        // LOAD PAGE
+        // ===============================
+        loadProjects();
+        loadStudentName();
+      // ===============================
+// SUBMIT PROJECT
+// ===============================
+
+function submitProject() {
+
+    const title =
+        document.getElementById("project-title").value.trim();
+
+    const description =
+        document.getElementById("project-description").value.trim();
+
+    const technologies =
+        document.getElementById("project-technologies").value.trim();
+
+    const githubUrl =
+        document.getElementById("github-url").value.trim();
+
+    const liveDemoUrl =
+        document.getElementById("live-demo-url").value.trim();
+
+    const imageInput =
+        document.getElementById("project-image");
+
+
+    // ===============================
+    // VALIDATION
+    // ===============================
+
+    if (!title) {
+
+        alert("Please enter your project title.");
+        return;
+
+    }
+
+
+    if (!description) {
+
+        alert("Please enter your project description.");
+        return;
+
+    }
+
+
+    // ===============================
+    // PROJECT DATA
+    // ===============================
+
+    const projectData = {
+
+        title: title,
+
+        description: description,
+
+        technologies: technologies,
+
+        githubUrl: githubUrl,
+
+        liveDemoUrl: liveDemoUrl
+
+    };
+
+
+    // ===============================
+    // FORM DATA
+    // ===============================
+
+    const formData =
+        new FormData();
+
+
+    formData.append(
+        "project",
+        new Blob(
+            [
+                JSON.stringify(projectData)
+            ],
+            {
+                type: "application/json"
+            }
+        )
+    );
+
+
+    // Add image if selected
+
+    if (
+        imageInput.files.length > 0
+    ) {
+
+        formData.append(
+            "image",
+            imageInput.files[0]
+        );
+
+    }
+
+    // ===============================
+    // SEND TO BACKEND
+    // ===============================
+
+    fetch(
+        "http://127.0.0.1:8080/api/projects",
+        {
+            method: "POST",
+
+            headers: {
+                "Authorization":
+                    "Bearer " + authToken
+            },
+
+            body: formData
+        }
+    )
+
+    .then(async response => {
+
+        const data =
+            await response.text();
+
+
+        if (!response.ok) {
+
+            throw new Error(data);
+
+        }
+
+
+        return JSON.parse(data);
+
+    })
+
+
+    .then(project => {
+
+        alert(
+            "🚀 Project submitted successfully!\n\n" +
+            "Your project is now waiting for admin approval."
+        );
+
+
+        // Clear form
+
+        document.getElementById(
+            "project-title"
+        ).value = "";
+
+
+        document.getElementById(
+            "project-description"
+        ).value = "";
+
+
+        document.getElementById(
+            "project-technologies"
+        ).value = "";
+
+
+        document.getElementById(
+            "github-url"
+        ).value = "";
+
+
+        document.getElementById(
+            "live-demo-url"
+        ).value = "";
+
+
+        document.getElementById(
+            "project-image"
+        ).value = "";
+
+
+        // Reload projects
+
+        loadProjects();
+
+    })
+
+
+    .catch(error => {
+
+        console.error(
+            "Project submission error:",
+            error
+        );
+
+
+        alert(
+            "Unable to submit project.\n\n" +
+            error.message
+        );
+
+    });
+
+}
+// ===============================
+// OPEN PROJECT DETAILS
+// ===============================
+
+function openProjectDetails(projectId) {
+    window.location.href =
+        "project-details.html?id=" + projectId;
+}
+    </script>
+</body>
+</html>

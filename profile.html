@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>My Profile - CampusConnect</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+</head>
+
+<body>
+
+
+    <!-- ===============================
+         NAVBAR
+    ================================ -->
+
+    <nav>
+
+        <div class="brand">
+
+            <img
+                src="logo.png"
+                alt="CampusConnect Logo"
+            >
+
+            <h2>
+                CampusConnect
+            </h2>
+
+        </div>
+
+
+        <div class="nav-links">
+
+            <a href="index.html">
+                Home
+            </a>
+
+            <a href="resources.html">
+                Resources
+            </a>
+
+            <a href="about.html">
+                About
+            </a>
+
+            <a
+                href="profile.html"
+                class="me-btn"
+            >
+                👤 Me
+            </a>
+
+            <a
+                href="#"
+                class="logout-btn"
+                id="logout-btn"
+            >
+                Logout
+            </a>
+
+        </div>
+
+    </nav>
+
+
+
+    <!-- ===============================
+         PROFILE PAGE
+    ================================ -->
+
+    <main class="profile-page">
+
+        <div class="profile-container">
+
+
+            <!-- PROFILE HEADER -->
+
+            <div class="profile-header">
+
+                <div class="profile-avatar">
+                    👤
+                </div>
+
+                <div>
+
+                    <h1>
+                        My Profile
+                    </h1>
+
+                    <p>
+                        Manage your CampusConnect account
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ===============================
+                 PERSONAL INFORMATION
+            ================================ -->
+
+            <section class="profile-card">
+
+                <h2>
+                    Personal Information
+                </h2>
+
+
+                <div class="profile-info">
+
+
+                    <div class="profile-info-item">
+
+                        <span class="profile-label">
+                            Name
+                        </span>
+
+                        <span
+                            id="profile-name"
+                            class="profile-value"
+                        >
+                            Loading...
+                        </span>
+
+                    </div>
+
+
+
+                    <div class="profile-info-item">
+
+                        <span class="profile-label">
+                            Email
+                        </span>
+
+                        <span
+                            id="profile-email"
+                            class="profile-value"
+                        >
+                            Loading...
+                        </span>
+
+                    </div>
+
+
+
+                    <div class="profile-info-item">
+
+                        <span class="profile-label">
+                            Role
+                        </span>
+
+                        <span
+                            id="profile-role"
+                            class="profile-value"
+                        >
+                            Loading...
+                        </span>
+
+                    </div>
+
+
+
+                    <div class="profile-info-item">
+
+                        <span class="profile-label">
+                            Account Created
+                        </span>
+
+                        <span
+                            id="profile-created"
+                            class="profile-value"
+                        >
+                            Loading...
+                        </span>
+
+                    </div>
+
+
+                </div>
+
+            </section>
+
+
+
+            <!-- ===============================
+                 ACCOUNT OPTIONS
+            ================================ -->
+
+            <section class="profile-card">
+
+                <h2>
+                    Account
+                </h2>
+
+
+                <div class="profile-options">
+
+
+                    <!-- CHANGE PASSWORD -->
+
+                    <button
+                        class="profile-option"
+                        onclick="changePassword()"
+                    >
+
+                        <span>
+                            🔑
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Change Password
+                            </strong>
+
+                            <small>
+                                Update your account password
+                            </small>
+
+                        </div>
+
+                        <span>
+                            →
+                        </span>
+
+                    </button>
+
+
+
+                    <!-- SAVED RESOURCES -->
+
+                    <button
+                        class="profile-option"
+                        onclick="openSavedResources()"
+                    >
+
+                        <span>
+                            ⭐
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                My Saved Resources
+                            </strong>
+
+                            <small>
+                                View resources you saved
+                            </small>
+
+                        </div>
+
+                        <span>
+                            →
+                        </span>
+
+                    </button>
+
+
+
+                    <!-- RECENTLY VIEWED -->
+
+                    <button
+                        class="profile-option"
+                        onclick="openRecentlyViewed()"
+                    >
+
+                        <span>
+                            🕘
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Recently Viewed
+                            </strong>
+
+                            <small>
+                                View your recently opened resources
+                            </small>
+
+                        </div>
+
+                        <span>
+                            →
+                        </span>
+
+                    </button>
+
+
+                </div>
+
+            </section>
+
+
+
+            <!-- ===============================
+                 CHANGE PASSWORD
+            ================================ -->
+
+            <section
+                id="change-password-section"
+                class="profile-card"
+                style="display: none;"
+            >
+
+                <h2>
+                    🔑 Change Password
+                </h2>
+
+
+                <form id="change-password-form">
+
+
+                    <div class="profile-info-item">
+
+                        <label class="profile-label">
+                            Current Password
+                        </label>
+
+                        <input
+                            type="password"
+                            id="current-password"
+                            placeholder="Enter current password"
+                            required
+                        >
+
+                    </div>
+
+
+
+                    <div class="profile-info-item">
+
+                        <label class="profile-label">
+                            New Password
+                        </label>
+
+                        <input
+                            type="password"
+                            id="new-password"
+                            placeholder="Enter new password"
+                            minlength="8"
+                            required
+                        >
+
+                    </div>
+
+
+
+                    <div class="profile-info-item">
+
+                        <label class="profile-label">
+                            Confirm New Password
+                        </label>
+
+                        <input
+                            type="password"
+                            id="confirm-password"
+                            placeholder="Confirm new password"
+                            minlength="8"
+                            required
+                        >
+
+                    </div>
+
+
+
+                    <button
+                        type="submit"
+                        class="profile-logout-btn"
+                    >
+                        Update Password
+                    </button>
+
+
+                    <p id="password-message"></p>
+
+
+                </form>
+
+            </section>
+
+
+
+            <!-- ===============================
+                 LOGOUT
+            ================================ -->
+
+            <button
+                id="profile-logout"
+                class="profile-logout-btn"
+            >
+                🚪 Logout
+            </button>
+
+
+        </div>
+
+    </main>
+
+
+
+    <!-- ===============================
+         JAVASCRIPT
+    ================================ -->
+
+    <script>
+
+
+        // ===============================
+        // CHECK LOGIN
+        // ===============================
+
+        const authToken =
+            localStorage.getItem("authToken");
+
+
+        if (!authToken) {
+
+            window.location.href =
+                "signin.html";
+
+        }
+
+
+
+        // ===============================
+        // LOAD PROFILE
+        // ===============================
+
+        function loadProfile() {
+
+
+            fetch(
+                "http://127.0.0.1:8080/api/auth/me",
+                {
+
+                    headers: {
+
+                        "Authorization":
+                            "Bearer " + authToken
+
+                    }
+
+                }
+            )
+
+
+            .then(response => {
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Profile loading failed"
+                    );
+
+                }
+
+                return response.json();
+
+            })
+
+
+            .then(user => {
+
+
+                document.getElementById(
+                    "profile-name"
+                ).textContent =
+                    user.name;
+
+
+
+                document.getElementById(
+                    "profile-email"
+                ).textContent =
+                    user.email;
+
+
+
+                document.getElementById(
+                    "profile-role"
+                ).textContent =
+                    user.role;
+
+
+
+                document.getElementById(
+                    "profile-created"
+                ).textContent =
+
+                    user.createdAt
+
+                        ? new Date(
+                            user.createdAt
+                        ).toLocaleDateString(
+                            "en-IN"
+                        )
+
+                        : "Not available";
+
+
+            })
+
+
+            .catch(error => {
+
+                console.error(
+                    "Profile error:",
+                    error
+                );
+
+            });
+
+        }
+
+
+
+        // ===============================
+        // LOGOUT
+        // ===============================
+
+        function logout() {
+
+
+            localStorage.removeItem(
+                "authToken"
+            );
+
+
+            localStorage.removeItem(
+                "userName"
+            );
+
+
+            localStorage.removeItem(
+                "userEmail"
+            );
+
+
+            localStorage.removeItem(
+                "userRole"
+            );
+
+
+            window.location.href =
+                "index.html";
+
+        }
+
+
+
+        document.getElementById(
+            "logout-btn"
+        ).addEventListener(
+            "click",
+            function(event) {
+
+                event.preventDefault();
+
+                logout();
+
+            }
+        );
+
+
+
+        document.getElementById(
+            "profile-logout"
+        ).addEventListener(
+            "click",
+            function() {
+
+                logout();
+
+            }
+        );
+
+
+
+        // ===============================
+        // CHANGE PASSWORD
+        // ===============================
+
+        function changePassword() {
+
+
+            const section =
+                document.getElementById(
+                    "change-password-section"
+                );
+
+
+            section.style.display =
+                "block";
+
+
+            section.scrollIntoView({
+                behavior: "smooth"
+            });
+
+
+        }
+
+
+
+        // ===============================
+        // CHANGE PASSWORD FORM
+        // ===============================
+
+        document.getElementById(
+            "change-password-form"
+        ).addEventListener(
+            "submit",
+            function(event) {
+
+
+                event.preventDefault();
+
+
+                const currentPassword =
+                    document.getElementById(
+                        "current-password"
+                    ).value;
+
+
+                const newPassword =
+                    document.getElementById(
+                        "new-password"
+                    ).value;
+
+
+                const confirmPassword =
+                    document.getElementById(
+                        "confirm-password"
+                    ).value;
+
+
+                const message =
+                    document.getElementById(
+                        "password-message"
+                    );
+
+
+                message.textContent =
+                    "";
+
+
+                // CHECK PASSWORD LENGTH
+
+                if (newPassword.length < 8) {
+
+                    message.textContent =
+                        "New password must be at least 8 characters.";
+
+                    message.style.color =
+                        "red";
+
+                    return;
+
+                }
+
+
+
+                // CHECK PASSWORD MATCH
+
+                if (
+                    newPassword !==
+                    confirmPassword
+                ) {
+
+                    message.textContent =
+                        "New passwords do not match.";
+
+                    message.style.color =
+                        "red";
+
+                    return;
+
+                }
+
+
+
+                // SEND REQUEST
+
+                fetch(
+                    "http://127.0.0.1:8080/api/auth/change-password",
+                    {
+
+                        method: "PUT",
+
+                        headers: {
+
+                            "Content-Type":
+                                "application/json",
+
+                            "Authorization":
+                                "Bearer " +
+                                authToken
+
+                        },
+
+                        body:
+                            JSON.stringify({
+
+                                currentPassword:
+                                    currentPassword,
+
+                                newPassword:
+                                    newPassword
+
+                            })
+
+                    }
+                )
+
+
+                .then(async response => {
+
+
+                    const data =
+                        await response.text();
+
+
+                    if (!response.ok) {
+
+                        throw new Error(
+                            data
+                        );
+
+                    }
+
+
+                    return data;
+
+                })
+
+
+                .then(() => {
+
+
+                    message.textContent =
+                        "Password changed successfully!";
+
+
+                    message.style.color =
+                        "green";
+
+
+                    document.getElementById(
+                        "change-password-form"
+                    ).reset();
+
+
+                })
+
+
+                .catch(error => {
+
+
+                    console.error(
+                        "Password change error:",
+                        error
+                    );
+
+
+                    message.textContent =
+                        error.message ||
+                        "Unable to change password.";
+
+
+                    message.style.color =
+                        "red";
+
+
+                });
+
+
+            }
+        );
+
+
+// ===============================
+// SAVED RESOURCES
+// ===============================
+
+function openSavedResources() {
+
+    window.location.href =
+        "saved-resources.html";
+
+}
+
+
+        // ===============================
+        // RECENTLY VIEWED
+        // ===============================
+
+        function openRecentlyViewed() {
+
+            alert(
+                "Recently Viewed will be available here."
+            );
+
+        }
+
+
+
+        // ===============================
+        // LOAD PROFILE
+        // ===============================
+
+        loadProfile();
+
+
+    </script>
+
+
+</body>
+
+</html>

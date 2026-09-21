@@ -1,9 +1,13 @@
 package CampusConnect;
+
 import jakarta.persistence.Table;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Column;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "users")
@@ -18,6 +22,9 @@ public class User {
     private String password;
     private String role;
     private String token;
+
+    @Column(nullable = false)
+    private LocalDateTime createdAt;
 
     public User() {
     }
@@ -42,6 +49,14 @@ public class User {
         return role;
     }
 
+    public String getToken() {
+        return token;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -57,11 +72,12 @@ public class User {
     public void setRole(String role) {
         this.role = role;
     }
-public String getToken() {
-    return token;
-}
-public void setToken(String token) {
-    this.token = token;
-}
-}
 
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+}

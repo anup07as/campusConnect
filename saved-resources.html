@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+    <title>Saved Resources - CampusConnect</title>
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+</head>
+<body>
+    <!-- ===============================
+         NAVBAR
+    ================================ -->
+    <nav>
+        <div class="brand">
+            <img
+                src="logo.png"
+                alt="CampusConnect Logo"
+            >
+            <h2>
+                CampusConnect
+            </h2>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">
+                Home
+            </a>
+            <a href="resources.html">
+                Resources
+            </a>
+            <a href="about.html">
+                About
+            </a>
+            <a
+                href="profile.html"
+                class="me-btn"
+            >
+                👤 Me
+            </a>
+            <a
+                href="#"
+                class="logout-btn"
+                id="logout-btn"
+            >
+                Logout
+            </a>
+        </div>
+    </nav>
+    <!-- ===============================
+         SAVED RESOURCES PAGE
+    ================================ -->
+    <main class="profile-page">
+
+        <div class="profile-container">
+
+            <a
+                href="profile.html"
+                class="back-btn"
+            >
+                ← Back to Profile
+            </a>
+
+
+            <div class="profile-header">
+
+                <div class="profile-avatar">
+                    ⭐
+                </div>
+
+                <div>
+
+                    <h1>
+                        My Saved Resources
+                    </h1>
+
+                    <p>
+                        Resources you have saved
+                    </p>
+
+                </div>
+
+            </div>
+
+            <!-- SAVED RESOURCE LIST -->
+            <section class="profile-card">
+                <div id="saved-resources-list">
+                    <p>
+                        Loading saved resources...
+                    </p>
+                </div>
+            </section>
+        </div>
+    </main>
+    <script>
+        // ===============================
+        // CHECK LOGIN
+        // ===============================
+        const authToken =
+            localStorage.getItem("authToken");
+
+        if (!authToken) {
+            window.location.href =
+                "signin.html";
+        }
+        // ===============================
+        // LOGOUT
+        // ===============================
+        function logout() {
+            localStorage.removeItem(
+                "authToken"
+            );
+            localStorage.removeItem(
+                "userName"
+            );
+            localStorage.removeItem(
+                "userEmail"
+            );
+            localStorage.removeItem(
+                "userRole"
+            );
+            window.location.href =
+                "index.html";
+
+        }
+        document.getElementById(
+            "logout-btn"
+        ).addEventListener(
+            "click",
+            function(event) {
+                event.preventDefault();
+                logout();
+            }
+        );
+        // ===============================
+        // LOAD SAVED RESOURCES
+        // ===============================
+        function loadSavedResources() {
+            fetch(
+                "http://127.0.0.1:8080/api/saved-resources",
+                {
+                    headers: {
+                        "Authorization":
+                            "Bearer " + authToken
+                    }
+                }
+            )
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(
+                        "Unable to load saved resources"
+                    );
+                }
+                return response.json();
+            })
+            .then(savedResources => {
+                const container =
+                    document.getElementById(
+                        "saved-resources-list"
+                    );
+                container.innerHTML = "";
+                if (
+                    savedResources.length === 0
+                ) {
+                    container.innerHTML = `
+                        <div>
+                            <h3>
+                                ⭐ No Saved Resources
+                            </h3>
+                            <p>
+                                You haven't saved any resources yet.
+                            </p>
+                        </div>
+                    `;
+                    return;
+                }
+savedResources.forEach(
+    function(savedResource) {
+        container.innerHTML += `
+            <div
+    class="saved-resource-item"
+>
+                <span>
+                    📄
+                </span>
+                <div>
+                  <a
+    href="${savedResource.filePath}"
+    target="_blank"
+    class="saved-resource-title"
+>
+    ${savedResource.resourceTitle}
+</a>
+                    <small>
+                        📚 Subject:
+                        ${savedResource.subjectName}
+                    </small>
+                    <small>
+                        🗓️ Saved on:
+                        ${
+                            new Date(
+                                savedResource.savedAt
+                            ).toLocaleDateString(
+                                "en-IN"
+                            )
+                        }
+                    </small>
+                </div>
+               <button
+    class="saved-remove-btn"
+    onclick="removeSavedResource(
+        ${savedResource.resourceId}
+    )"
+>
+    Remove
+</button>
+            </div>
+        `;
+    }
+);
+            })
+            .catch(error => {
+                console.error(
+                    "Saved resources error:",
+                    error
+                );
+                document.getElementById(
+                    "saved-resources-list"
+                ).innerHTML = `
+
+                    <p>
+                        Unable to load saved resources.
+                    </p>
+
+                `;
+
+            });
+
+        }
+
+
+
+        // ===============================
+        // REMOVE SAVED RESOURCE
+        // ===============================
+
+        function removeSavedResource(
+            resourceId
+        ) {
+
+
+            fetch(
+                "http://127.0.0.1:8080/api/saved-resources/"
+                + resourceId,
+                {
+
+                    method: "DELETE",
+
+                    headers: {
+
+                        "Authorization":
+                            "Bearer " + authToken
+
+                    }
+
+                }
+            )
+
+
+            .then(response => {
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Unable to remove resource"
+                    );
+
+                }
+
+                return response.text();
+
+            })
+
+
+            .then(() => {
+
+                loadSavedResources();
+
+            })
+
+
+            .catch(error => {
+
+                console.error(
+                    "Remove resource error:",
+                    error
+                );
+
+            });
+
+        }
+
+
+
+        // ===============================
+        // LOAD PAGE
+        // ===============================
+
+        loadSavedResources();
+
+
+    </script>
+
+
+</body>
+
+</html>

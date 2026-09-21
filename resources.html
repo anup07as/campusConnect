@@ -2,73 +2,258 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
     <title>Resources - CampusConnect</title>
-    <link rel="stylesheet" href="style.css">
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
 </head>
-    <body>
+<body>
+    <!-- NAVBAR -->
     <nav>
         <div class="brand">
-            <img src="logo.png" alt="CampusConnect Logo">
+            <img
+                src="logo.png"
+                alt="CampusConnect Logo"
+            >
             <h2>CampusConnect</h2>
         </div>
         <div class="nav-links">
-            <a href="index.html">Home</a>
-            <a href="resources.html">Resources</a>
-            <a href="#">About</a>
-            <a href="signin.html" class="signin-btn">Sign In</a>
-           <a href="join.html" class="join-btn">Join Now</a>
+            <a href="index.html">
+                Home
+            </a>
+            <a href="resources.html">
+                Resources
+            </a>
+            <a href="about.html">
+                About
+            </a>
+            <a
+                href="signin.html"
+                class="signin-btn"
+            >
+                Sign In
+            </a>
+            <a
+                href="join.html"
+                class="join-btn"
+            >
+                Join Now
+            </a>
         </div>
     </nav>
-
+    <!-- RESOURCE PAGE -->
     <section class="resource-page">
-        <h1>Find Your Resources</h1>
-        <p>Select your semester to continue.</p>
-       <div class="semester-container">
-
-    <a href="subject.html?semester=1" class="semester-card">
-        <h2>Semester 1</h2>
-        <p>Explore resources →</p>
-    </a>
-
-    <a href="subject.html?semester=2" class="semester-card">
-        <h2>Semester 2</h2>
-        <p>Explore resources →</p>
-    </a>
-
-    <a href="subject.html?semester=3" class="semester-card">
-        <h2>Semester 3</h2>
-        <p>Explore resources →</p>
-    </a>
-
-    <a href="subject.html?semester=4" class="semester-card">
-        <h2>Semester 4</h2>
-        <p>Explore resources →</p>
-    </a>
-
-    <a href="subject.html?semester=5" class="semester-card">
-        <h2>Semester 5</h2>
-        <p>Explore resources →</p>
-    </a>
-
-    <a href="subject.html?semester=6" class="semester-card">
-        <h2>Semester 6</h2>
-        <p>Explore resources →</p>
-    </a>
-
-    <a href="subject.html?semester=7" class="semester-card">
-        <h2>Semester 7</h2>
-        <p>Explore resources →</p>
-    </a>
-
-    <a href="subject.html?semester=8" class="semester-card">
-        <h2>Semester 8</h2>
-        <p>Explore resources →</p>
-    </a>
-
-</div>
+        <h1>
+            Find Your Resources
+        </h1>
+        <p>
+            Search for study material or select your semester.
+        </p>
+        <!-- SEARCH -->
+        <div class="resource-search">
+            <input
+    type="text"
+    id="resource-search"
+    placeholder="Search subjects, notes, PYQs..."
+    onkeydown="if(event.key === 'Enter') searchResources()"
+>
+            <button
+                onclick="searchResources()"
+            >
+                Search
+            </button>
+        </div>
+        <!-- SEARCH RESULTS -->
+        <div
+            id="search-results"
+            class="search-results"
+        ></div>
+        <!-- SEMESTERS -->
+        <h2 class="semester-heading">
+           
+        </h2>
+        <div class="semester-container">
+            <a
+                href="subject.html?semester=1"
+                class="semester-card"
+            >
+                <h2>
+                    Semester 1
+                </h2>
+                <p>
+                    Explore resources →
+                </p>
+            </a>
+            <a
+                href="subject.html?semester=2"
+                class="semester-card"
+            >
+                <h2>
+                    Semester 2
+                </h2>
+                <p>
+                    Explore resources →
+                </p>
+            </a>
+            <a
+                href="subject.html?semester=3"
+                class="semester-card"
+            >
+                <h2>
+                    Semester 3
+                </h2>
+                <p>
+                    Explore resources →
+                </p>
+            </a>
+            <a
+                href="subject.html?semester=4"
+                class="semester-card"
+            >
+                <h2>
+                    Semester 4
+                </h2>
+                <p>
+                    Explore resources →
+                </p>
+            </a>
+            <a
+                href="subject.html?semester=5"
+                class="semester-card"
+            >
+                <h2>
+                    Semester 5
+                </h2>
+                <p>
+                    Explore resources →
+                </p>
+            </a>
+            <a
+                href="subject.html?semester=6"
+                class="semester-card"
+            >
+                <h2>
+                    Semester 6
+                </h2>
+                <p>
+                    Explore resources →
+                </p>
+            </a>
+            <a
+                href="subject.html?semester=7"
+                class="semester-card"
+            >
+                <h2>
+                    Semester 7
+                </h2>
+                <p>
+                    Explore resources →
+                </p>
+            </a>
+            <a
+                href="subject.html?semester=8"
+                class="semester-card"
+            >
+                <h2>
+                    Semester 8
+                </h2>
+                <p>
+                    Explore resources →
+                </p>
+            </a>
+        </div>
     </section>
+    <!-- SEARCH SCRIPT -->
+    <script>
+        function searchResources() {
+            const searchInput =
+                document.getElementById(
+                    "resource-search"
+                );
+            const searchResults =
+                document.getElementById(
+                    "search-results"
+                );
+            const query =
+                searchInput.value
+                    .trim()
+                    .toLowerCase();
+            if (!query) {
+                searchResults.innerHTML = "";
+                return;
+            }
+            searchResults.innerHTML =
+                "<p>Searching...</p>";
+            /*
+             * We will connect this to the
+             * backend database in the next step.
+             */
+            fetch(
+                "http://127.0.0.1:8080/api/resources/search?query="
+                + encodeURIComponent(query)
+            )
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(
+                        "Search failed"
+                    );
+                }
+                return response.json();
+            })
+            .then(resources => {
+                searchResults.innerHTML = "";
+                if (resources.length === 0) {
+                    searchResults.innerHTML =
+                        "<p>No resources found.</p>";
+                    return;
+                }
+                resources.forEach(
+                    function(resource) {
+                        searchResults.innerHTML += `
+                            <div class="search-result-item">
+                                <h3>
+                                    📄 ${resource.title}
+                                </h3>
+                                <p>
+                                    Type: ${resource.type}
+                                </p>
+                                <a
+                                    href="${resource.filePath}"
+                                    target="_blank"
+                                >
+                                    Open PDF →
+                                </a>
+                            </div>
+                        `;
+                    }
+                );
+            })
+            .catch(error => {
+                console.error(
+                    "Search error:",
+                    error
+                );
+                searchResults.innerHTML =
+                    "<p>Unable to search resources.</p>";
+            });
+        }
+        </script>
+
+   <script>
+    const pageAuthToken =
+        localStorage.getItem("authToken");
+
+    if (!pageAuthToken) {
+        window.location.href = "signin.html";
+    }
+</script>
+
+<script src="script.js"></script>
 
 </body>
-
 </html>

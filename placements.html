@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Placements & Internships - CampusConnect
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+</head>
+
+<body>
+
+    <!-- ===============================
+         NAVBAR
+    ================================ -->
+
+    <nav>
+
+        <div class="brand">
+
+            <img
+                src="logo.png"
+                alt="CampusConnect Logo"
+            >
+
+            <h2>
+                CampusConnect
+            </h2>
+
+        </div>
+
+
+        <div class="nav-links">
+
+            <a href="index.html">
+                Home
+            </a>
+
+            <a href="resources.html">
+                Resources
+            </a>
+
+            <a href="about.html">
+                About
+            </a>
+
+            <a
+                href="profile.html"
+                class="me-btn"
+            >
+                👤 Me
+            </a>
+
+            <a
+                href="#"
+                class="logout-btn"
+                id="logout-btn"
+            >
+                Logout
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- ===============================
+         PLACEMENT PAGE
+    ================================ -->
+
+    <main class="profile-page">
+
+        <div class="profile-container">
+
+
+            <!-- HEADER -->
+
+            <div class="profile-header">
+
+                <div class="profile-avatar">
+                    💼
+                </div>
+
+                <div>
+
+                    <h1>
+                        Placements & Internships
+                    </h1>
+
+                    <p>
+                        Find internship and placement opportunities
+                        shared with CampusConnect students.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- SEARCH -->
+
+            <section class="profile-card">
+
+                <h2>
+                    🔎 Find Opportunities
+                </h2>
+
+                <input
+                    type="text"
+                    id="opportunity-search"
+                    placeholder="Search by company, role or skill..."
+                >
+
+            </section>
+
+
+            <!-- OPPORTUNITIES -->
+
+            <section class="profile-card">
+
+                <h2>
+                    💼 Opportunities
+                </h2>
+
+                <div id="opportunities-container">
+
+                    <p>
+                        Loading opportunities...
+                    </p>
+
+                </div>
+
+            </section>
+
+<!-- ===============================
+     EXTERNAL INTERNSHIP PLATFORMS
+================================ -->
+
+<section class="profile-card external-platforms">
+
+    <h2>🌐 Find More Internships</h2>
+
+    <p class="external-platforms-subtitle">
+        Explore real internship opportunities from popular job platforms.
+    </p>
+
+    <div class="platform-grid">
+
+        <a
+            href="https://internshala.com/internships/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="platform-card"
+        >
+            <div class="platform-icon">🎓</div>
+
+            <div>
+                <h3>Internshala</h3>
+                <p>Find internships across India</p>
+            </div>
+
+            <span>Visit →</span>
+        </a>
+
+
+        <a
+           href="https://www.linkedin.com/jobs/search/?keywords=internship"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="platform-card"
+        >
+            <div class="platform-icon">💼</div>
+
+            <div>
+                <h3>LinkedIn Jobs</h3>
+                <p>Explore internships and jobs</p>
+            </div>
+
+            <span>Visit →</span>
+        </a>
+
+
+        <a
+           href="https://in.indeed.com/jobs?q=internship"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="platform-card"
+        >
+            <div class="platform-icon">🔎</div>
+
+            <div>
+                <h3>Indeed</h3>
+                <p>Search jobs and internships</p>
+            </div>
+
+            <span>Visit →</span>
+        </a>
+
+
+        <a
+            href="https://www.naukri.com/internship-jobs"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="platform-card"
+        >
+            <div class="platform-icon">🚀</div>
+
+            <div>
+                <h3>Naukri</h3>
+                <p>Find jobs and internship openings</p>
+            </div>
+
+            <span>Visit →</span>
+        </a>
+
+    </div>
+
+</section>
+        </div>
+
+    </main>
+
+
+    <!-- ===============================
+         JAVASCRIPT
+    ================================ -->
+
+    <script>
+
+        // ===============================
+        // CHECK LOGIN
+        // ===============================
+
+        const authToken =
+            localStorage.getItem("authToken");
+
+        if (!authToken) {
+
+            window.location.href =
+                "signin.html";
+
+        }
+
+
+        // ===============================
+        // LOGOUT
+        // ===============================
+
+        document
+            .getElementById("logout-btn")
+            .addEventListener(
+                "click",
+                function(event) {
+
+                    event.preventDefault();
+
+                    localStorage.removeItem(
+                        "authToken"
+                    );
+
+                    localStorage.removeItem(
+                        "userName"
+                    );
+
+                    localStorage.removeItem(
+                        "userEmail"
+                    );
+
+                    localStorage.removeItem(
+                        "userRole"
+                    );
+
+                    window.location.href =
+                        "index.html";
+
+                }
+            );
+
+
+        // ===============================
+        // LOAD OPPORTUNITIES
+        // ===============================
+
+        function loadOpportunities() {
+
+            const container =
+                document.getElementById(
+                    "opportunities-container"
+                );
+
+            container.innerHTML =
+                "<p>Loading opportunities...</p>";
+
+
+            fetch(
+                "http://127.0.0.1:8080/api/opportunities"
+            )
+
+            .then(response => {
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Unable to load opportunities"
+                    );
+
+                }
+
+                return response.json();
+
+            })
+
+            .then(opportunities => {
+
+                container.innerHTML = "";
+
+                if (opportunities.length === 0) {
+
+                    container.innerHTML = `
+                        <p>
+                            No opportunities available yet.
+                        </p>
+                    `;
+
+                    return;
+
+                }
+
+opportunities.forEach(function(opportunity) {
+
+    container.innerHTML += `
+
+        <div class="opportunity-card">
+
+            <div class="opportunity-main">
+
+                <div class="opportunity-header">
+
+                    <div>
+                        <h3>
+                            ${opportunity.title}
+                        </h3>
+
+                        <p class="opportunity-company">
+                            🏢 ${opportunity.company}
+                        </p>
+                    </div>
+
+                    <span class="opportunity-type">
+                        ${opportunity.type}
+                    </span>
+
+                </div>
+
+
+                <div class="opportunity-details">
+
+                    <span>
+                        💼 ${opportunity.role || "Role not specified"}
+                    </span>
+
+                    <span>
+                        📍 ${opportunity.location || "Location not specified"}
+                    </span>
+
+                    <span>
+                        🌐 ${opportunity.workMode || "Work mode not specified"}
+                    </span>
+
+                    <span>
+                        🎓 ${opportunity.cgpa
+                            ? "CGPA: " + opportunity.cgpa
+                            : "CGPA not specified"}
+                    </span>
+
+                </div>
+
+
+                <div class="opportunity-info">
+
+                    ${
+                        opportunity.skills
+                        ? `
+                            <p>
+                                🛠️
+                                <strong>Skills:</strong>
+                                ${opportunity.skills}
+                            </p>
+                          `
+                        : ""
+                    }
+
+                    ${
+                        opportunity.eligibility
+                        ? `
+                            <p>
+                                🎓
+                                <strong>Eligibility:</strong>
+                                ${opportunity.eligibility}
+                            </p>
+                          `
+                        : ""
+                    }
+
+                    ${
+                        opportunity.stipend
+                        ? `
+                            <p>
+                                💰
+                                <strong>Stipend:</strong>
+                                ${opportunity.stipend}
+                            </p>
+                          `
+                        : ""
+                    }
+
+                    ${
+                        opportunity.salary
+                        ? `
+                            <p>
+                                💰
+                                <strong>Salary:</strong>
+                                ${opportunity.salary}
+                            </p>
+                          `
+                        : ""
+                    }
+
+                    ${
+                        opportunity.deadline
+                        ? `
+                            <p>
+                                📅
+                                <strong>Deadline:</strong>
+                                ${opportunity.deadline}
+                            </p>
+                          `
+                        : ""
+                    }
+
+                </div>
+
+
+                ${
+                    opportunity.description
+                    ? `
+                        <p class="opportunity-description">
+                            ${opportunity.description}
+                        </p>
+                      `
+                    : ""
+                }
+
+
+                <div class="opportunity-actions">
+
+                    ${
+                        opportunity.applyUrl
+                        ? `
+                            <a
+                                href="${opportunity.applyUrl}"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="apply-opportunity-btn"
+                            >
+                                Apply Now →
+                            </a>
+                          `
+                        : `
+                            <span class="no-apply-link">
+                                Application link unavailable
+                            </span>
+                          `
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+
+    `;
+});
+
+            })
+            .catch(error => {
+                console.error(
+                    "Opportunity error:",
+                    error
+                );
+                container.innerHTML = `
+                    <p>
+                        Unable to load opportunities.
+                    </p>
+                `;
+            });
+        }
+        loadOpportunities();
+        // ===============================
+// SEARCH OPPORTUNITIES
+// ===============================
+
+document
+    .getElementById("opportunity-search")
+    .addEventListener("input", function () {
+
+        const searchText =
+            this.value.toLowerCase().trim();
+
+        const cards =
+            document.querySelectorAll(
+                ".opportunity-card"
+            );
+
+        cards.forEach(function (card) {
+
+            const cardText =
+                card.textContent.toLowerCase();
+
+            if (cardText.includes(searchText)) {
+
+                card.style.display = "block";
+
+            } else {
+
+                card.style.display = "none";
+
+            }
+
+        });
+
+    });
+    </script>
+</body>
+</html>
