@@ -237,7 +237,7 @@
         // ===============================
         function loadProjects() {
             fetch(
-                "http://127.0.0.1:8080/api/projects"
+                "https://campusconnect-8rzy.onrender.com/api/projects"
             )
             .then(response => {
                 if (!response.ok) {
@@ -276,7 +276,7 @@
                         project.imagePath
                         ? `
                             <img
-    src="http://127.0.0.1:8080${project.imagePath}"
+    src="https://campusconnect-8rzy.onrender.com${project.imagePath}"
     alt="${project.title}"
 >
                           `
@@ -490,7 +490,7 @@ function submitProject() {
     // ===============================
 
     fetch(
-        "http://127.0.0.1:8080/api/projects",
+        "https://campusconnect-8rzy.onrender.com/api/projects",
         {
             method: "POST",
 

@@ -512,7 +512,7 @@
 
 
             fetch(
-                "http://127.0.0.1:8080/api/subjects",
+                "https://campusconnect-8rzy.onrender.com/api/subjects",
                 {
                     method: "POST",
 
@@ -649,7 +649,7 @@
 
 
             fetch(
-                "http://127.0.0.1:8080/api/resources",
+                "https://campusconnect-8rzy.onrender.com/api/resources",
                 {
                     method: "POST",
 
@@ -753,7 +753,7 @@
 
 
                     fetch(
-                        "http://127.0.0.1:8080/api/subjects?semester=" +
+                        "https://campusconnect-8rzy.onrender.com/api/subjects?semester=" +
                         semesterId
                     )
 
@@ -840,7 +840,7 @@
 
 
             fetch(
-                "http://127.0.0.1:8080/api/resources?subjectId=" +
+                "https://campusconnect-8rzy.onrender.com/api/resources?subjectId=" +
                 subjectId
             )
 
@@ -937,7 +937,7 @@
 
 
             fetch(
-                "http://127.0.0.1:8080/api/resources/" +
+                "https://campusconnect-8rzy.onrender.com/api/resources/" +
                 id,
                 {
                     method: "DELETE",
@@ -1043,7 +1043,7 @@
 
 
             fetch(
-                "http://127.0.0.1:8080/api/resources/" +
+                "https://campusconnect-8rzy.onrender.com/api/resources/" +
                 id,
                 {
                     method: "PUT",
@@ -1139,7 +1139,7 @@
 
 
             fetch(
-                "http://127.0.0.1:8080/api/subjects?semester=" +
+                "https://campusconnect-8rzy.onrender.com/api/subjects?semester=" +
                 semesterId
             )
 
@@ -1255,7 +1255,7 @@
 
 
             fetch(
-                "http://127.0.0.1:8080/api/subjects/" +
+                "https://campusconnect-8rzy.onrender.com/api/subjects/" +
                 id,
                 {
                     method: "PUT",
@@ -1337,7 +1337,7 @@
 
 
             fetch(
-                "http://127.0.0.1:8080/api/subjects/" +
+                "https://campusconnect-8rzy.onrender.com/api/subjects/" +
                 id,
                 {
                     method: "DELETE",
@@ -1391,7 +1391,7 @@
 
 function loadAdminStats() {
 
-    fetch("http://127.0.0.1:8080/api/admin/stats")
+    fetch("https://campusconnect-8rzy.onrender.com/api/admin/stats")
 
         .then(response => {
 
@@ -1444,7 +1444,7 @@ function loadUsers() {
         "<p>Loading users...</p>";
 
     fetch(
-        "http://127.0.0.1:8080/api/admin/users",
+        "https://campusconnect-8rzy.onrender.com/api/admin/users",
         {
             headers: {
                 "Authorization":
@@ -1546,7 +1546,7 @@ function deleteUser(id) {
     }
 
     fetch(
-        "http://127.0.0.1:8080/api/admin/users/" + id,
+        "https://campusconnect-8rzy.onrender.com/api/admin/users/" + id,
         {
             method: "DELETE",
 
@@ -1632,7 +1632,7 @@ function deleteUser(id) {
             localStorage.getItem("authToken");
 
         fetch(
-            "http://127.0.0.1:8080/api/admin/projects",
+            "https://campusconnect-8rzy.onrender.com/api/admin/projects",
             {
                 headers: {
                     "Authorization":
@@ -1858,7 +1858,7 @@ function addOpportunity() {
 
 
     fetch(
-        "http://127.0.0.1:8080/api/admin/opportunities",
+        "https://campusconnect-8rzy.onrender.com/api/admin/opportunities",
         {
             method: "POST",
 
@@ -1973,7 +1973,7 @@ function loadAdminOpportunities() {
     if (!container) return;
 
     fetch(
-        "http://127.0.0.1:8080/api/admin/opportunities",
+        "https://campusconnect-8rzy.onrender.com/api/admin/opportunities",
         {
             headers: {
                 "Authorization":
@@ -2132,7 +2132,7 @@ function toggleOpportunityStatus(
         localStorage.getItem("authToken");
 
     fetch(
-        "http://127.0.0.1:8080/api/admin/opportunities/"
+        "https://campusconnect-8rzy.onrender.com/api/admin/opportunities/"
         + opportunityId
         + "/status?status="
         + status,
@@ -2203,7 +2203,7 @@ function deleteOpportunity(
         localStorage.getItem("authToken");
 
     fetch(
-        "http://127.0.0.1:8080/api/admin/opportunities/"
+        "https://campusconnect-8rzy.onrender.com/api/admin/opportunities/"
         + opportunityId,
         {
             method: "DELETE",
@@ -2269,7 +2269,7 @@ loadAdminOpportunities();
 
 
         fetch(
-            "http://127.0.0.1:8080/api/admin/projects/"
+            "https://campusconnect-8rzy.onrender.com/api/admin/projects/"
             + projectId
             + "/status?status="
             + status,
@@ -2341,7 +2341,7 @@ function deleteProject(projectId) {
         localStorage.getItem("authToken");
 
     fetch(
-        "http://127.0.0.1:8080/api/admin/projects/"
+        "https://campusconnect-8rzy.onrender.com/api/admin/projects/"
         + projectId,
         {
             method: "DELETE",

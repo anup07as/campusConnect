@@ -155,7 +155,7 @@ joinForm.addEventListener("submit", function(event) {
 
     // Send OTP
     fetch(
-        "http://127.0.0.1:8080/api/auth/send-otp?email="
+        "https://campusconnect-8rzy.onrender.com/api/auth/send-otp?email="
         + encodeURIComponent(email),
         {
             method: "POST"
@@ -276,7 +276,7 @@ verifyOtpButton.addEventListener(
 
 
         fetch(
-            "http://127.0.0.1:8080/api/auth/verify-otp?email="
+            "https://campusconnect-8rzy.onrender.com/api/auth/verify-otp?email="
             + encodeURIComponent(
                 pendingUser.email
             )
@@ -314,7 +314,7 @@ verifyOtpButton.addEventListener(
 
             // Create account
             return fetch(
-                "http://127.0.0.1:8080/api/auth/register",
+                "https://campusconnect-8rzy.onrender.com/api/auth/register",
                 {
                     method: "POST",
 
