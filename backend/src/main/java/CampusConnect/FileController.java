@@ -12,7 +12,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 @RestController
-@CrossOrigin(origins = "http://127.0.0.1:5500")
+@CrossOrigin(origins = "https://campusconnect-web-me6v.onrender.com")
 public class FileController {
 
     @GetMapping("/uploads/{fileName}")

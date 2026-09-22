@@ -16,7 +16,7 @@ import org.springframework.http.HttpStatus;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://127.0.0.1:5500")
+@CrossOrigin(origins = "https://campusconnect-web-me6v.onrender.com")
 public class SubjectController {
 
     private final SubjectRepository subjectRepository;
