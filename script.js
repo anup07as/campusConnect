@@ -1,7 +1,7 @@
 // ===============================
 // API CONFIGURATION
 // ===============================
-const API_BASE_URL = "https://campusconnect-8rzy.onrender.com";
+const API_BASE_URL = "https://campusconnect-8rzv.onrender.com";
 
 // ===============================
 // UPDATE NAVBAR BASED ON LOGIN
@@ -177,7 +177,7 @@ function showMaterials(
 
 
     fetch(
-        "https://campusconnect-8rzy.onrender.com/api/resources?subjectId="
+        "https://campusconnect-8rzv.onrender.com/api/resources?subjectId="
         + subjectId
     )
 
@@ -298,7 +298,7 @@ if (
 ) {
 
     fetch(
-        "https://campusconnect-8rzy.onrender.com/api/subjects?semester="
+        "https://campusconnect-8rzv.onrender.com/api/subjects?semester="
         + semester
     )
 
@@ -377,7 +377,7 @@ if (
 function saveResource(resourceId) {
 
     fetch(
-        "https://campusconnect-8rzy.onrender.com/api/saved-resources/"
+        "https://campusconnect-8rzv.onrender.com/api/saved-resources/"
         + resourceId,
         {
             method: "POST",
@@ -499,7 +499,7 @@ function sendCampusAIMessage() {
     messages.scrollTop = messages.scrollHeight;
 
     // Send complete conversation history
-    fetch("https://campusconnect-8rzy.onrender.com/api/ai/chat", {
+    fetch("https://campusconnect-8rzv.onrender.com/api/ai/chat", {
 
         method: "POST",
 
