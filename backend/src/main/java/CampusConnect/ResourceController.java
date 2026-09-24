@@ -98,7 +98,7 @@ public List<Resource> searchResources(
                 new Resource(
                         title,
                         type,
-                        "http://127.0.0.1:8080/uploads/"
+                        "https://campusconnect-8rzv.onrender.com/uploads/"
                                 + fileName,
                         subjectId
                 );
