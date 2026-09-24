@@ -1,5 +1,4 @@
 package CampusConnect;
-
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,15 +9,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
-
 import java.util.UUID;
 import java.util.List;
-
 @RestController
 @CrossOrigin(origins = {
     "https://campusconnect-web-me6v.onrender.com",
@@ -26,12 +21,10 @@ import java.util.List;
     "http://localhost:5500"
 })
 public class UserController {
-
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final OtpService otpService;
     private final EmailService emailService;
-
     public UserController(
             UserRepository userRepository,
             PasswordEncoder passwordEncoder,
@@ -101,11 +94,15 @@ public class UserController {
     @PostMapping("/api/auth/register")
     public ResponseEntity<?> register(
             @RequestBody User user) {
-
         User existingUser =
                 userRepository.findByEmail(
                         user.getEmail()
                 );
+                if (!otpService.isEmailVerified(user.getEmail())) {
+    return ResponseEntity
+            .status(HttpStatus.FORBIDDEN)
+            .body("Please verify your email first");
+}
 
         if (existingUser != null) {
             return ResponseEntity
