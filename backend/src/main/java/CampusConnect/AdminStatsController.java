@@ -3,6 +3,9 @@ package CampusConnect;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 
 @RestController
 @CrossOrigin(origins = "https://campusconnect-web-me6v.onrender.com")
@@ -12,28 +15,42 @@ public class AdminStatsController {
     private final SubjectRepository subjectRepository;
     private final ResourceRepository resourceRepository;
     private final SemesterRepository semesterRepository;
+    private final AdminAuthService adminAuthService;
 
     public AdminStatsController(
             UserRepository userRepository,
             SubjectRepository subjectRepository,
             ResourceRepository resourceRepository,
-            SemesterRepository semesterRepository) {
+            SemesterRepository semesterRepository,
+            AdminAuthService adminAuthService) {
 
         this.userRepository = userRepository;
         this.subjectRepository = subjectRepository;
         this.resourceRepository = resourceRepository;
         this.semesterRepository = semesterRepository;
+        this.adminAuthService = adminAuthService;
     }
 
     @GetMapping("/api/admin/stats")
-    public AdminStats getStats() {
+public ResponseEntity<?> getStats(
+        @RequestHeader(
+                value = "Authorization",
+                required = false)
+        String authorizationHeader) {
 
-        return new AdminStats(
+    if (!adminAuthService.isAdmin(authorizationHeader)) {
+        return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body("Admin access required");
+    }
+    return ResponseEntity.ok(
+            new AdminStats(
                 userRepository.count(),
                 subjectRepository.count(),
                 resourceRepository.count(),
-                semesterRepository.count()
-        );
+             semesterRepository.count()
+            )
+    );
     }
 
     public static class AdminStats {
