@@ -3,9 +3,11 @@ package CampusConnect;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpStatus;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -21,9 +23,19 @@ public class FileController {
 
         try {
 
-            Path filePath = Paths.get("uploads")
-                    .resolve(fileName)
-                    .normalize();
+            Path uploadDirectory = Paths.get("uploads")
+        .toAbsolutePath()
+        .normalize();
+
+Path filePath = uploadDirectory
+        .resolve(fileName)
+        .normalize();
+
+if (!filePath.startsWith(uploadDirectory)) {
+    return ResponseEntity
+            .status(HttpStatus.FORBIDDEN)
+            .build();
+}
 
             Resource resource =
                     new UrlResource(filePath.toUri());
