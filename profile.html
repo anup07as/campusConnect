@@ -463,14 +463,18 @@
 
             .then(response => {
 
-                if (!response.ok) {
+              if (!response.ok) {
+    if (response.status === 401) {
+        localStorage.removeItem("authToken");
+        alert("Your session has expired. Please login again.");
+        window.location.href = "signin.html";
+        return;
+    }
 
-                    throw new Error(
-                        "Profile loading failed"
-                    );
-
-                }
-
+    throw new Error(
+        "Profile loading failed"
+    );
+}
                 return response.json();
 
             })
