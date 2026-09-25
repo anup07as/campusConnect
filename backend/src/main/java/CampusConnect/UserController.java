@@ -15,7 +15,10 @@ import org.springframework.http.HttpStatus;
 import java.util.UUID;
 import java.util.List;
 @RestController
-@CrossOrigin(origins = "https://campusconnect-web-me6v.onrender.com")
+@CrossOrigin(origins = {
+    "https://campusconnect-web-me6v.onrender.com",
+    "https://campusconnect-dva.pages.dev"
+})
 public class UserController {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
