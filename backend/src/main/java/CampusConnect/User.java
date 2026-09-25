@@ -23,6 +23,9 @@ public class User {
     private String role;
     private String token;
 
+    // Session token creation time
+    private LocalDateTime tokenCreatedAt;
+
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
@@ -53,6 +56,10 @@ public class User {
         return token;
     }
 
+    public LocalDateTime getTokenCreatedAt() {
+        return tokenCreatedAt;
+    }
+
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
@@ -75,6 +82,10 @@ public class User {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public void setTokenCreatedAt(LocalDateTime tokenCreatedAt) {
+        this.tokenCreatedAt = tokenCreatedAt;
     }
 
     public void setCreatedAt(LocalDateTime createdAt) {

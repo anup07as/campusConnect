@@ -151,10 +151,11 @@ return ResponseEntity.ok(
                     .body("Invalid email or password");
         }
 
-        String token =
+       String token =
         UUID.randomUUID().toString();
 
 user.setToken(token);
+user.setTokenCreatedAt(java.time.LocalDateTime.now());
 
 // Set creation date for older accounts
 if (user.getCreatedAt() == null) {
@@ -195,15 +196,25 @@ public ResponseEntity<?> getCurrentUser(
     String token =
             authorizationHeader.substring(7);
 
-    User user =
-            userRepository.findByToken(token);
+   User user =
+        userRepository.findByToken(token);
 
-    if (user == null) {
+if (user == null) {
+    return ResponseEntity
+            .status(HttpStatus.UNAUTHORIZED)
+            .body("Invalid session");
+}
+if (isTokenExpired(user)) {
 
-        return ResponseEntity
-                .status(HttpStatus.UNAUTHORIZED)
-                .body("Invalid session");
-    }
+    user.setToken(null);
+    user.setTokenCreatedAt(null);
+    userRepository.save(user);
+
+    return ResponseEntity
+            .status(HttpStatus.UNAUTHORIZED)
+            .body("Session expired. Please login again.");
+}
+
 
     return ResponseEntity.ok(
             new UserProfileResponse(
@@ -245,6 +256,16 @@ public ResponseEntity<?> changePassword(
                 .status(HttpStatus.UNAUTHORIZED)
                 .body("Invalid session");
     }
+    if (isTokenExpired(user)) {
+
+    user.setToken(null);
+    user.setTokenCreatedAt(null);
+    userRepository.save(user);
+
+    return ResponseEntity
+            .status(HttpStatus.UNAUTHORIZED)
+            .body("Session expired. Please login again.");
+}
 
     // Check current password
     if (!passwordEncoder.matches(
@@ -294,6 +315,16 @@ public ResponseEntity<?> changePassword(
                                 ? authorizationHeader.substring(7)
                                 : null
                 );
+if (admin != null && isTokenExpired(admin)) {
+
+    admin.setToken(null);
+    admin.setTokenCreatedAt(null);
+    userRepository.save(admin);
+
+    return ResponseEntity
+            .status(HttpStatus.UNAUTHORIZED)
+            .body("Session expired. Please login again.");
+}
 
         if (admin == null ||
                 !"ADMIN".equals(admin.getRole())) {
@@ -335,6 +366,16 @@ public ResponseEntity<?> changePassword(
                                 ? authorizationHeader.substring(7)
                                 : null
                 );
+                if (admin != null && isTokenExpired(admin)) {
+
+    admin.setToken(null);
+    admin.setTokenCreatedAt(null);
+    userRepository.save(admin);
+
+    return ResponseEntity
+            .status(HttpStatus.UNAUTHORIZED)
+            .body("Session expired. Please login again.");
+}
 
         if (admin == null ||
                 !"ADMIN".equals(admin.getRole())) {
@@ -364,4 +405,14 @@ public ResponseEntity<?> changePassword(
                 "User deleted successfully"
         );
     }
+    private boolean isTokenExpired(User user) {
+
+    if (user == null || user.getTokenCreatedAt() == null) {
+        return true;
+    }
+
+    return user.getTokenCreatedAt()
+            .plusHours(24)
+            .isBefore(java.time.LocalDateTime.now());
+}
 }
