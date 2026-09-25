@@ -14,7 +14,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 @RestController
-@CrossOrigin(origins = "https://campusconnect-web-me6v.onrender.com")
+@CrossOrigin(origins = { "https://campusconnect-web-me6v.onrender.com", "https://campusconnect-dva.pages.dev" })
 public class FileController {
 
     @GetMapping("/uploads/{fileName}")

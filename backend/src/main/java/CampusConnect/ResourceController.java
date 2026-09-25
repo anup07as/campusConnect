@@ -19,7 +19,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 @RestController
-@CrossOrigin(origins = "https://campusconnect-web-me6v.onrender.com")
+@CrossOrigin(origins = { "https://campusconnect-web-me6v.onrender.com", "https://campusconnect-dva.pages.dev" })
 public class ResourceController {
     private final ResourceRepository resourceRepository;
     private final AdminAuthService adminAuthService;

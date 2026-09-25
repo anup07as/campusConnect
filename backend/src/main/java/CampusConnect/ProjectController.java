@@ -14,7 +14,7 @@ import java.util.UUID;
 import java.time.LocalDateTime;
 
 @RestController
-@CrossOrigin(origins = "https://campusconnect-web-me6v.onrender.com")
+@CrossOrigin(origins = { "https://campusconnect-web-me6v.onrender.com", "https://campusconnect-dva.pages.dev" })
 public class ProjectController {
 
     private final ProjectRepository projectRepository;
