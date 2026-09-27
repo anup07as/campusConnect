@@ -341,31 +341,45 @@ public class OpportunityController {
     // ADMIN CHECK
     // ===============================
 
-    private User getAdmin(
-            String authorizationHeader) {
+   private User getAdmin(
+        String authorizationHeader) {
 
-        if (authorizationHeader == null ||
-                !authorizationHeader.startsWith(
-                        "Bearer "
-                )) {
+    if (authorizationHeader == null ||
+            !authorizationHeader.startsWith(
+                    "Bearer "
+            )) {
 
-            return null;
-        }
-
-        String token =
-                authorizationHeader.substring(7);
-
-        User user =
-                userRepository.findByToken(token);
-
-        if (user == null ||
-                !"ADMIN".equals(user.getRole())) {
-
-            return null;
-        }
-
-        return user;
+        return null;
     }
+
+    String token =
+            authorizationHeader.substring(7);
+
+    User user =
+            userRepository.findByToken(token);
+
+    if (user == null) {
+        return null;
+    }
+
+    if (user.getTokenCreatedAt() == null ||
+            user.getTokenCreatedAt()
+                    .plusHours(24)
+                    .isBefore(LocalDateTime.now())) {
+
+        user.setToken(null);
+        user.setTokenCreatedAt(null);
+        userRepository.save(user);
+
+        return null;
+    }
+
+    if (!"ADMIN".equals(user.getRole())) {
+        return null;
+    }
+
+    return user;
+}
 
 
     // ===============================

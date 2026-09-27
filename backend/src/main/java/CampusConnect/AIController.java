@@ -50,15 +50,32 @@ public class AIController {
         User user =
                 userRepository.findByToken(token);
 
-        if (user == null) {
+      if (user == null) {
 
-            return ResponseEntity
-                    .status(HttpStatus.UNAUTHORIZED)
-                    .body(Map.of(
-                            "answer",
-                            "Your session is invalid. Please login again."
-                    ));
-        }
+    return ResponseEntity
+            .status(HttpStatus.UNAUTHORIZED)
+            .body(Map.of(
+                    "answer",
+                    "Your session is invalid. Please login again."
+            ));
+}
+
+if (user.getTokenCreatedAt() == null ||
+        user.getTokenCreatedAt()
+                .plusHours(24)
+                .isBefore(java.time.LocalDateTime.now())) {
+
+    user.setToken(null);
+    user.setTokenCreatedAt(null);
+    userRepository.save(user);
+
+    return ResponseEntity
+            .status(HttpStatus.UNAUTHORIZED)
+            .body(Map.of(
+                    "answer",
+                    "Your session has expired. Please login again."
+            ));
+}
 
         Object historyObject =
                 request.get("history");

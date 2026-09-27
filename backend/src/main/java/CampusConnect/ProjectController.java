@@ -1,10 +1,8 @@
 package CampusConnect;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -12,73 +10,66 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.UUID;
 import java.time.LocalDateTime;
-
 @RestController
-@CrossOrigin(origins = { "https://campusconnect-web-me6v.onrender.com", "https://campusconnect-dva.pages.dev" })
+@CrossOrigin(origins = {
+        "https://campusconnect-web-me6v.onrender.com",
+        "https://campusconnect-dva.pages.dev"
+})
 public class ProjectController {
-
     private final ProjectRepository projectRepository;
     private final UserRepository userRepository;
-
-
     public ProjectController(
             ProjectRepository projectRepository,
             UserRepository userRepository) {
-
         this.projectRepository = projectRepository;
         this.userRepository = userRepository;
     }
-
-
     // ===============================
     // SUBMIT PROJECT
     // ===============================
-
     @PostMapping(
             value = "/api/projects",
             consumes = "multipart/form-data"
     )
     public ResponseEntity<?> submitProject(
-
             @RequestHeader(
                     value = "Authorization",
                     required = false
             )
             String authorizationHeader,
-
             @RequestPart("project")
             Project project,
-
             @RequestPart(
                     value = "image",
                     required = false
             )
             MultipartFile image) {
-
         if (authorizationHeader == null ||
                 !authorizationHeader.startsWith("Bearer ")) {
-
             return ResponseEntity
                     .status(HttpStatus.UNAUTHORIZED)
                     .body("Login required");
         }
-
-
         String token =
                 authorizationHeader.substring(7);
-
-
         User user =
                 userRepository.findByToken(token);
-
-
         if (user == null) {
-
             return ResponseEntity
                     .status(HttpStatus.UNAUTHORIZED)
                     .body("Invalid session");
         }
+        // 24-hour session expiry
+        if (isTokenExpired(user)) {
 
+            user.setToken(null);
+            user.setTokenCreatedAt(null);
+            userRepository.save(user);
+
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body("Session expired. Please login again.");
+        }
 
         try {
 
@@ -92,12 +83,11 @@ public class ProjectController {
                 String contentType =
                         image.getContentType();
 
-
                 if (contentType == null ||
                         (
-                            !contentType.equals("image/png") &&
-                            !contentType.equals("image/jpeg") &&
-                            !contentType.equals("image/webp")
+                                !contentType.equals("image/png") &&
+                                !contentType.equals("image/jpeg") &&
+                                !contentType.equals("image/webp")
                         )) {
 
                     return ResponseEntity
@@ -106,7 +96,6 @@ public class ProjectController {
                                     "Only JPG, PNG and WebP images are allowed."
                             );
                 }
-
 
                 if (image.getSize() > 5 * 1024 * 1024) {
 
@@ -117,22 +106,17 @@ public class ProjectController {
                             );
                 }
 
-
                 Path uploadDirectory =
                         Paths.get("uploads");
-
 
                 Files.createDirectories(
                         uploadDirectory
                 );
 
-
                 String originalName =
                         image.getOriginalFilename();
 
-
                 String extension = "";
-
 
                 if (originalName != null &&
                         originalName.contains(".")) {
@@ -143,30 +127,25 @@ public class ProjectController {
                             );
                 }
 
-
                 String fileName =
                         UUID.randomUUID()
                                 .toString()
                                 + extension;
-
 
                 Path filePath =
                         uploadDirectory.resolve(
                                 fileName
                         );
 
-
                 Files.copy(
                         image.getInputStream(),
                         filePath
                 );
 
-
                 project.setImagePath(
                         "/uploads/" + fileName
                 );
             }
-
 
             // ===============================
             // STUDENT INFORMATION
@@ -176,22 +155,18 @@ public class ProjectController {
                     user.getId()
             );
 
-
             project.setStatus(
                     "PENDING"
             );
-
 
             project.setCreatedAt(
                     LocalDateTime.now()
             );
 
-
             Project savedProject =
                     projectRepository.save(
                             project
                     );
-
 
             return ResponseEntity.ok(
                     new ProjectResponse(
@@ -208,7 +183,6 @@ public class ProjectController {
                     )
             );
 
-
         } catch (IOException e) {
 
             e.printStackTrace();
@@ -223,7 +197,6 @@ public class ProjectController {
         }
     }
 
-
     // ===============================
     // GET APPROVED PROJECTS
     // ===============================
@@ -237,7 +210,6 @@ public class ProjectController {
                                 "APPROVED"
                         );
 
-
         List<ProjectResponse> response =
                 projects.stream()
                         .map(project -> {
@@ -249,12 +221,10 @@ public class ProjectController {
                                             )
                                             .orElse(null);
 
-
                             String studentName =
                                     user != null
                                             ? user.getName()
                                             : "Unknown Student";
-
 
                             return new ProjectResponse(
                                     project.getId(),
@@ -271,12 +241,10 @@ public class ProjectController {
                         })
                         .toList();
 
-
         return ResponseEntity.ok(
                 response
         );
     }
-
 
     // ===============================
     // GET MY PROJECTS
@@ -299,14 +267,11 @@ public class ProjectController {
                     .body("Login required");
         }
 
-
         String token =
                 authorizationHeader.substring(7);
 
-
         User user =
                 userRepository.findByToken(token);
-
 
         if (user == null) {
 
@@ -315,13 +280,23 @@ public class ProjectController {
                     .body("Invalid session");
         }
 
+        // 24-hour session expiry
+        if (isTokenExpired(user)) {
+
+            user.setToken(null);
+            user.setTokenCreatedAt(null);
+            userRepository.save(user);
+
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body("Session expired. Please login again.");
+        }
 
         List<Project> projects =
                 projectRepository
                         .findByUserIdOrderByCreatedAtDesc(
                                 user.getId()
                         );
-
 
         List<ProjectResponse> response =
                 projects.stream()
@@ -341,12 +316,10 @@ public class ProjectController {
                         )
                         .toList();
 
-
         return ResponseEntity.ok(
                 response
         );
     }
-
 
     // ===============================
     // ADMIN - GET ALL PROJECTS
@@ -369,27 +342,40 @@ public class ProjectController {
                     .body("Login required");
         }
 
-
         String token =
                 authorizationHeader.substring(7);
-
 
         User admin =
                 userRepository.findByToken(token);
 
+        if (admin == null) {
 
-        if (admin == null ||
-                !"ADMIN".equals(admin.getRole())) {
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body("Invalid session");
+        }
+
+        // 24-hour session expiry
+        if (isTokenExpired(admin)) {
+
+            admin.setToken(null);
+            admin.setTokenCreatedAt(null);
+            userRepository.save(admin);
+
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body("Session expired. Please login again.");
+        }
+
+        if (!"ADMIN".equals(admin.getRole())) {
 
             return ResponseEntity
                     .status(HttpStatus.FORBIDDEN)
                     .body("Admin access required");
         }
 
-
         List<Project> projects =
                 projectRepository.findAll();
-
 
         List<ProjectResponse> response =
                 projects.stream()
@@ -402,12 +388,10 @@ public class ProjectController {
                                             )
                                             .orElse(null);
 
-
                             String studentName =
                                     user != null
                                             ? user.getName()
                                             : "Unknown Student";
-
 
                             return new ProjectResponse(
                                     project.getId(),
@@ -424,12 +408,10 @@ public class ProjectController {
                         })
                         .toList();
 
-
         return ResponseEntity.ok(
                 response
         );
     }
-
 
     // ===============================
     // ADMIN - APPROVE / REJECT PROJECT
@@ -456,23 +438,37 @@ public class ProjectController {
                     .body("Login required");
         }
 
-
         String token =
                 authorizationHeader.substring(7);
-
 
         User admin =
                 userRepository.findByToken(token);
 
+        if (admin == null) {
 
-        if (admin == null ||
-                !"ADMIN".equals(admin.getRole())) {
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body("Invalid session");
+        }
+
+        // 24-hour session expiry
+        if (isTokenExpired(admin)) {
+
+            admin.setToken(null);
+            admin.setTokenCreatedAt(null);
+            userRepository.save(admin);
+
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body("Session expired. Please login again.");
+        }
+
+        if (!"ADMIN".equals(admin.getRole())) {
 
             return ResponseEntity
                     .status(HttpStatus.FORBIDDEN)
                     .body("Admin access required");
         }
-
 
         if (!status.equals("APPROVED") &&
                 !status.equals("REJECTED") &&
@@ -483,12 +479,10 @@ public class ProjectController {
                     .body("Invalid project status");
         }
 
-
         Project project =
                 projectRepository
                         .findById(id)
                         .orElse(null);
-
 
         if (project == null) {
 
@@ -497,17 +491,14 @@ public class ProjectController {
                     .body("Project not found");
         }
 
-
         project.setStatus(
                 status
         );
-
 
         Project updatedProject =
                 projectRepository.save(
                         project
                 );
-
 
         User student =
                 userRepository
@@ -516,12 +507,10 @@ public class ProjectController {
                         )
                         .orElse(null);
 
-
         String studentName =
                 student != null
                         ? student.getName()
                         : "Unknown Student";
-
 
         return ResponseEntity.ok(
                 new ProjectResponse(
@@ -538,80 +527,118 @@ public class ProjectController {
                 )
         );
     }
+
     // ===============================
-// DELETE PROJECT - ADMIN ONLY
-// ===============================
+    // DELETE PROJECT - ADMIN ONLY
+    // ===============================
 
-@DeleteMapping("/api/admin/projects/{id}")
-public ResponseEntity<?> deleteProject(
-        @PathVariable Long id,
-        @RequestHeader(
-                value = "Authorization",
-                required = false
-        )
-        String authorizationHeader) {
+    @DeleteMapping("/api/admin/projects/{id}")
+    public ResponseEntity<?> deleteProject(
 
-    if (authorizationHeader == null ||
-            !authorizationHeader.startsWith("Bearer ")) {
+            @PathVariable Long id,
 
-        return ResponseEntity
-                .status(HttpStatus.UNAUTHORIZED)
-                .body("Login required");
-    }
+            @RequestHeader(
+                    value = "Authorization",
+                    required = false
+            )
+            String authorizationHeader) {
 
-    String token =
-            authorizationHeader.substring(7);
+        if (authorizationHeader == null ||
+                !authorizationHeader.startsWith("Bearer ")) {
 
-    User admin =
-            userRepository.findByToken(token);
-
-    if (admin == null ||
-            !"ADMIN".equals(admin.getRole())) {
-
-        return ResponseEntity
-                .status(HttpStatus.FORBIDDEN)
-                .body("Admin access required");
-    }
-
-    Project project =
-            projectRepository
-                    .findById(id)
-                    .orElse(null);
-
-    if (project == null) {
-
-        return ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
-                .body("Project not found");
-    }
-
-    // Delete uploaded project image
-    if (project.getImagePath() != null) {
-
-        try {
-
-            String fileName =
-                    project.getImagePath()
-                            .replace("/uploads/", "");
-
-            Path imagePath =
-                    Paths.get("uploads")
-                            .resolve(fileName)
-                            .normalize();
-
-            Files.deleteIfExists(imagePath);
-
-        } catch (IOException e) {
-
-            e.printStackTrace();
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body("Login required");
         }
+
+        String token =
+                authorizationHeader.substring(7);
+
+        User admin =
+                userRepository.findByToken(token);
+
+        if (admin == null) {
+
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body("Invalid session");
+        }
+
+        // 24-hour session expiry
+        if (isTokenExpired(admin)) {
+
+            admin.setToken(null);
+            admin.setTokenCreatedAt(null);
+            userRepository.save(admin);
+
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body("Session expired. Please login again.");
+        }
+
+        if (!"ADMIN".equals(admin.getRole())) {
+
+            return ResponseEntity
+                    .status(HttpStatus.FORBIDDEN)
+                    .body("Admin access required");
+        }
+
+        Project project =
+                projectRepository
+                        .findById(id)
+                        .orElse(null);
+
+        if (project == null) {
+
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body("Project not found");
+        }
+
+        // Delete uploaded project image
+        if (project.getImagePath() != null) {
+
+            try {
+
+                String fileName =
+                        project.getImagePath()
+                                .replace("/uploads/", "");
+
+                Path imagePath =
+                        Paths.get("uploads")
+                                .resolve(fileName)
+                                .normalize();
+
+                Files.deleteIfExists(imagePath);
+
+            } catch (IOException e) {
+
+                e.printStackTrace();
+            }
+        }
+
+        // Delete project from database
+        projectRepository.delete(project);
+
+        return ResponseEntity.ok(
+                "Project deleted successfully"
+        );
     }
 
-    // Delete project from database
-    projectRepository.delete(project);
+    // ===============================
+    // TOKEN EXPIRY CHECK
+    // ===============================
 
-    return ResponseEntity.ok(
-            "Project deleted successfully"
-    );
-}
+    private boolean isTokenExpired(User user) {
+
+        if (user == null ||
+                user.getTokenCreatedAt() == null) {
+
+            return true;
+        }
+
+        return user.getTokenCreatedAt()
+                .plusHours(24)
+                .isBefore(LocalDateTime.now());
+    }
 }

@@ -8,7 +8,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = { "https://campusconnect-web-me6v.onrender.com", "https://campusconnect-dva.pages.dev" })
+@CrossOrigin(origins = {
+        "https://campusconnect-web-me6v.onrender.com",
+        "https://campusconnect-dva.pages.dev"
+})
 public class SavedResourceController {
 
     private final SavedResourceRepository savedResourceRepository;
@@ -16,18 +19,17 @@ public class SavedResourceController {
     private final ResourceRepository resourceRepository;
     private final SubjectRepository subjectRepository;
 
- public SavedResourceController(
-        SavedResourceRepository savedResourceRepository,
-        UserRepository userRepository,
-        ResourceRepository resourceRepository,
-        SubjectRepository subjectRepository) {
+    public SavedResourceController(
+            SavedResourceRepository savedResourceRepository,
+            UserRepository userRepository,
+            ResourceRepository resourceRepository,
+            SubjectRepository subjectRepository) {
 
         this.savedResourceRepository = savedResourceRepository;
         this.userRepository = userRepository;
         this.resourceRepository = resourceRepository;
         this.subjectRepository = subjectRepository;
     }
-
 
     // ===============================
     // SAVE RESOURCE
@@ -61,6 +63,17 @@ public class SavedResourceController {
             return ResponseEntity
                     .status(HttpStatus.UNAUTHORIZED)
                     .body("Invalid session");
+        }
+
+        if (isTokenExpired(user)) {
+
+            user.setToken(null);
+            user.setTokenCreatedAt(null);
+            userRepository.save(user);
+
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body("Session expired. Please login again.");
         }
 
         if (!resourceRepository.existsById(resourceId)) {
@@ -104,86 +117,95 @@ public class SavedResourceController {
         );
     }
 
+    // ===============================
+    // GET SAVED RESOURCES
+    // ===============================
 
-   // ===============================
-// GET SAVED RESOURCES
-// ===============================
+    @GetMapping("/api/saved-resources")
+    public ResponseEntity<?> getSavedResources(
+            @RequestHeader(
+                    value = "Authorization",
+                    required = false
+            )
+            String authorizationHeader) {
 
-@GetMapping("/api/saved-resources")
-public ResponseEntity<?> getSavedResources(
-        @RequestHeader(
-                value = "Authorization",
-                required = false
-        )
-        String authorizationHeader) {
+        if (authorizationHeader == null ||
+                !authorizationHeader.startsWith("Bearer ")) {
 
-    if (authorizationHeader == null ||
-            !authorizationHeader.startsWith("Bearer ")) {
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body("Login required");
+        }
 
-        return ResponseEntity
-                .status(HttpStatus.UNAUTHORIZED)
-                .body("Login required");
+        String token =
+                authorizationHeader.substring(7);
+
+        User user =
+                userRepository.findByToken(token);
+
+        if (user == null) {
+
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body("Invalid session");
+        }
+
+        if (isTokenExpired(user)) {
+
+            user.setToken(null);
+            user.setTokenCreatedAt(null);
+            userRepository.save(user);
+
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body("Session expired. Please login again.");
+        }
+
+        List<SavedResource> savedResources =
+                savedResourceRepository.findByUserId(
+                        user.getId()
+                );
+
+        List<SavedResourceResponse> response =
+                savedResources.stream()
+                        .map(savedResource -> {
+
+                            Resource resource =
+                                    resourceRepository
+                                            .findById(
+                                                    savedResource.getResourceId()
+                                            )
+                                            .orElse(null);
+
+                            if (resource == null) {
+                                return null;
+                            }
+
+                            Subject subject =
+                                    subjectRepository
+                                            .findById(
+                                                    resource.getSubjectId()
+                                            )
+                                            .orElse(null);
+
+                            String subjectName =
+                                    subject != null
+                                            ? subject.getName()
+                                            : "Unknown Subject";
+
+                            return new SavedResourceResponse(
+                                    resource.getId(),
+                                    resource.getTitle(),
+                                    subjectName,
+                                    resource.getFilePath(),
+                                    savedResource.getSavedAt()
+                            );
+                        })
+                        .filter(item -> item != null)
+                        .toList();
+
+        return ResponseEntity.ok(response);
     }
-
-    String token =
-            authorizationHeader.substring(7);
-
-    User user =
-            userRepository.findByToken(token);
-
-    if (user == null) {
-
-        return ResponseEntity
-                .status(HttpStatus.UNAUTHORIZED)
-                .body("Invalid session");
-    }
-
-    List<SavedResource> savedResources =
-            savedResourceRepository.findByUserId(
-                    user.getId()
-            );
-
-    List<SavedResourceResponse> response =
-            savedResources.stream()
-                    .map(savedResource -> {
-
-                        Resource resource =
-                                resourceRepository
-                                        .findById(
-                                                savedResource.getResourceId()
-                                        )
-                                        .orElse(null);
-
-                        if (resource == null) {
-                            return null;
-                        }
-
-                        Subject subject =
-                                subjectRepository
-                                        .findById(
-                                                resource.getSubjectId()
-                                        )
-                                        .orElse(null);
-
-                        String subjectName =
-                                subject != null
-                                        ? subject.getName()
-                                        : "Unknown Subject";
-
-                        return new SavedResourceResponse(
-                                resource.getId(),
-                                resource.getTitle(),
-                                subjectName,
-                                resource.getFilePath(),
-                                savedResource.getSavedAt()
-                        );
-                    })
-                    .filter(item -> item != null)
-                    .toList();
-
-    return ResponseEntity.ok(response);
-}
-
 
     // ===============================
     // REMOVE SAVED RESOURCE
@@ -219,6 +241,17 @@ public ResponseEntity<?> getSavedResources(
                     .body("Invalid session");
         }
 
+        if (isTokenExpired(user)) {
+
+            user.setToken(null);
+            user.setTokenCreatedAt(null);
+            userRepository.save(user);
+
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body("Session expired. Please login again.");
+        }
+
         if (!savedResourceRepository
                 .existsByUserIdAndResourceId(
                         user.getId(),
@@ -238,5 +271,22 @@ public ResponseEntity<?> getSavedResources(
         return ResponseEntity.ok(
                 "Resource removed from saved resources"
         );
+    }
+
+    // ===============================
+    // TOKEN EXPIRY CHECK
+    // ===============================
+
+    private boolean isTokenExpired(User user) {
+
+        if (user == null ||
+                user.getTokenCreatedAt() == null) {
+
+            return true;
+        }
+
+        return user.getTokenCreatedAt()
+                .plusHours(24)
+                .isBefore(LocalDateTime.now());
     }
 }

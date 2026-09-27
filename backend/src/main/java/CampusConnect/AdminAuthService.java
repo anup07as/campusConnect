@@ -17,9 +17,22 @@ public class AdminAuthService {
                 authorizationHeader.substring(7);
         User user =
                 userRepository.findByToken(token);
-        if (user == null) {
-            return false;
-        }
-        return "ADMIN".equals(user.getRole());
+       if (user == null) {
+    return false;
+}
+
+if (user.getTokenCreatedAt() == null ||
+        user.getTokenCreatedAt()
+            .plusHours(24)
+            .isBefore(java.time.LocalDateTime.now())) {
+
+    user.setToken(null);
+    user.setTokenCreatedAt(null);
+    userRepository.save(user);
+
+    return false;
+}
+
+return "ADMIN".equals(user.getRole());
     }
 }
